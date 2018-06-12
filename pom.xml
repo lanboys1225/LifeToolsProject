@@ -11,6 +11,7 @@
 
     <modules>
         <module>core</module>
+        <module>api</module>
     </modules>
 
     <properties>
@@ -44,6 +45,14 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+
+            <!-- 子 module 依赖使用 -->
+            <dependency>
+                <groupId>com.bing.lan.project</groupId>
+                <artifactId>core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- spring核心包 -->
             <dependency>
                 <groupId>org.springframework</groupId>

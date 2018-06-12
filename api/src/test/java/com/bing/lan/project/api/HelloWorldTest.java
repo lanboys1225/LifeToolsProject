@@ -1,3 +1,5 @@
+package com.bing.lan.project.api;
+
 import org.junit.Test;
 
 /**
