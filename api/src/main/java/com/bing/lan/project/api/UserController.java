@@ -1,5 +1,7 @@
 package com.bing.lan.project.api;
 
+import com.bing.lan.project.userApi.domain.UserBean;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +20,7 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/login")
-    public String login(String mobile, String password, String nickName) {
-        userService.doLogin(mobile, password, nickName);
-        return "mobile: " + mobile + ", nickName: " + nickName + "login success!!";
+    public UserBean login(String mobile, String password, String nickName) {
+        return userService.doLogin(mobile, password, nickName);
     }
 }

@@ -1,6 +1,7 @@
 package com.bing.lan.project.userProvider;
 
 import com.bing.lan.project.userApi.DubboUserService;
+import com.bing.lan.project.userApi.domain.UserBean;
 
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DubboUserServiceImpl implements DubboUserService {
 
-    public void doLogin(String mobile, String password) {
+    public UserBean doLogin(String mobile, String password) {
         System.out.println("DubboUserServiceImpl doLogin() >>>>>>" + mobile + " 登录成功");
+        return new UserBean("1", mobile, password);
     }
 }
