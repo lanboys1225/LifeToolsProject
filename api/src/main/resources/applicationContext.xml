@@ -5,5 +5,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="classpath:core-context.xml"/>
+    <import resource="classpath:dubbo.xml"/>
 
 </beans>

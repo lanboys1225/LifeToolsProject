@@ -12,6 +12,6 @@ import org.springframework.stereotype.Service;
 public class DubboUserServiceImpl implements DubboUserService {
 
     public void doLogin(String mobile, String password) {
-        System.out.println("doLogin() >>>>>>" + mobile + " 登录成功");
+        System.out.println("DubboUserServiceImpl doLogin() >>>>>>" + mobile + " 登录成功");
     }
 }
