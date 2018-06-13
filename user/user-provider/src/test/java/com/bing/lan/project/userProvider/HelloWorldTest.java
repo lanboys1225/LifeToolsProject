@@ -1,5 +1,7 @@
 package com.bing.lan.project.userProvider;
 
+import com.bing.lan.project.api.HelloWorld;
+
 import org.junit.Test;
 
 /**
