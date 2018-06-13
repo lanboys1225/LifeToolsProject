@@ -1,5 +1,7 @@
-package com.bing.lan.project.api;
+package com.bing.lan.project.api.controller;
 
+import com.bing.lan.project.api.BaseController;
+import com.bing.lan.project.api.UserService;
 import com.bing.lan.project.userApi.domain.UserBean;
 
 import org.springframework.beans.factory.annotation.Autowired;

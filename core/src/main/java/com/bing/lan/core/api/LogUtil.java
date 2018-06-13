@@ -1,5 +1,8 @@
 package com.bing.lan.core.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,16 +20,18 @@ public class LogUtil implements Serializable {
     /* 日期格式 */
     private static SimpleDateFormat formatter = new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA);
     /* 全局默认log打印等级 LOG_ERROR */
-    private static int GLOBAL_LOG_LEVEL = LOG_ERROR;
+    private static int GLOBAL_LOG_LEVEL = LOG_VERBOSE;
     /* 默认的前缀 */
-    private static String TAG_PREFIX = "javaEE >>>";
+    private static String TAG_PREFIX = " #### ";
     /* current class log level */
     private int mLogLevel;
     /* current class log tag */
     private String tag;
+    private Logger logger;
 
     private LogUtil(Class clz, int level) {
-        tag = TAG_PREFIX + clz.getSimpleName();
+        logger = LoggerFactory.getLogger(clz);
+        tag = clz.getSimpleName() + TAG_PREFIX;
         mLogLevel = level;
     }
 
@@ -93,7 +98,14 @@ public class LogUtil implements Serializable {
         //GLOBAL_LOG_LEVEL 以上等级一定打印
         //e.g.: mLogLevel = 1; level = 1; 2; 3; 4; 5; ... 打印
         //e.g.: mLogLevel = 2; level = 2; 3; 4; 5; ... 打印
-        return (GLOBAL_LOG_LEVEL <= level || mLogLevel <= level);
+        //return (GLOBAL_LOG_LEVEL <= level || mLogLevel <= level);
+
+        if (GLOBAL_LOG_LEVEL <= level) {
+            if (mLogLevel <= level) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void verbose(String tag, String msg, boolean format) {
@@ -139,45 +151,21 @@ public class LogUtil implements Serializable {
     private void print(int level, String tag, String msg, Throwable throwable) {
         switch (level) {
             case LOG_VERBOSE:
-                //Log.v(tag, msg);
-                System.out.println(tag + ">>>" + msg);
+                logger.trace(tag + "  " + msg);
                 break;
             case LOG_INFO:
-                //Log.i(tag, msg);
-                System.out.println(tag + ">>>" + msg);
-
+                logger.info(tag + "  " + msg);
                 break;
             case LOG_DEBUG:
-                //Log.d(tag, msg);
-                System.out.println(tag + ">>>" + msg);
-
+                logger.debug(tag + "  " + msg);
                 break;
             case LOG_WARN:
-                //Log.w(tag, msg, throwable);
-                System.out.println(tag + ">>>" + msg + "\n" + throwable);
+                logger.warn(tag + "  " + msg);
                 break;
             case LOG_ERROR:
-                System.out.println(tag + ">>>" + msg + "\n" + throwable);
+                logger.error(tag + "  " + msg, throwable);
                 break;
         }
-
-        // switch (level) {
-        //     case LOG_VERBOSE:
-        //         Logger.t(tag).v(msg);
-        //         break;
-        //     case LOG_INFO:
-        //         Logger.t(tag).i(msg);
-        //         break;
-        //     case LOG_DEBUG:
-        //         Logger.t(tag).d(msg);
-        //         break;
-        //     case LOG_WARN:
-        //         Logger.t(tag).w(msg, throwable);
-        //         break;
-        //     case LOG_ERROR:
-        //         Logger.t(tag).e(throwable, msg);
-        //         break;
-        // }
     }
 
     ////////////log verbose/////////////

@@ -1,7 +1,6 @@
 package com.bing.lan.project.userProvider;
 
-import com.alibaba.dubbo.common.logger.Logger;
-import com.alibaba.dubbo.common.logger.LoggerFactory;
+import com.bing.lan.core.api.LogUtil;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -11,20 +10,21 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DubboUserProvider {
 
-    private static Logger log = LoggerFactory.getLogger(DubboUserProvider.class);
+    private static final LogUtil log = LogUtil.getLogUtil(DubboUserProvider.class, LogUtil.LOG_VERBOSE);
 
     public static void main(String[] args) {
         try {
             new ClassPathXmlApplicationContext("classpath:user-provider-context.xml");
+            log.i("服务启动成功.....");
         } catch (Exception e) {
-            log.error(">>>>> DubboUserProvider context start error >>>>", e);
+            log.e("DubboUserProvider context start error >>>>", e);
         }
         synchronized (DubboUserProvider.class) {
             while (true) {
                 try {
                     DubboUserProvider.class.wait();
                 } catch (InterruptedException e) {
-                    log.error(">>>>> synchronized error >>>>>", e);
+                    log.e("synchronized error >>>>>", e);
                 }
             }
         }
