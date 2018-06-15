@@ -51,7 +51,7 @@
         <mvc:default-servlet-handler/>
 
         -->
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <!--&lt;!&ndash; 编码过滤器 &ndash;&gt;-->
@@ -71,7 +71,7 @@
     <!--<url-pattern>*.do</url-pattern>-->
     <!--</filter-mapping>-->
 
-    <!-- 默认页面 -->
+    <!-- 后面无 path 时的默认页面 -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

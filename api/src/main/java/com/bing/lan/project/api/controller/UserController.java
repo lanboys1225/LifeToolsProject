@@ -2,6 +2,7 @@ package com.bing.lan.project.api.controller;
 
 import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.UserService;
+import com.bing.lan.project.api.version.ApiVersion;
 import com.bing.lan.project.userApi.domain.UserBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/{version}/user")
 public class UserController extends BaseController {
 
     @Autowired
@@ -22,7 +23,22 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @RequestMapping("/login")
-    public UserBean login(String mobile, String password, String nickName) {
-        return userService.doLogin(mobile, password, nickName);
+    @ApiVersion(1)
+    public UserBean login1(String mobile, String password, String nickName) {
+        return userService.doLogin(mobile + " 版本 1", password, nickName);
+    }
+
+    @ResponseBody
+    @RequestMapping("/login")
+    @ApiVersion(2)
+    public UserBean login2(String mobile, String password, String nickName) {
+        return userService.doLogin(mobile + " 版本 2", password, nickName);
+    }
+
+    @ResponseBody
+    @RequestMapping("/login")
+    @ApiVersion(5)
+    public UserBean login5(String mobile, String password, String nickName) {
+        return userService.doLogin(mobile + " 版本 5", password, nickName);
     }
 }
