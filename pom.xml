@@ -22,7 +22,7 @@
         <!-- spring版本号 -->
         <spring.version>4.3.17.RELEASE</spring.version>
 
-        <spring-data-redis.version>2.0.7.RELEASE</spring-data-redis.version>
+        <spring-data-redis.version>1.7.2.RELEASE</spring-data-redis.version>
         <redis-jedis.version>2.9.0</redis-jedis.version>
         <curator.version>4.0.1</curator.version>
 
