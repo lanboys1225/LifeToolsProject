@@ -24,7 +24,8 @@ public class RpcTraceLogFilter implements Filter {
     private final LogUtil log = LogUtil.getLogUtil(getClass(), LogUtil.LOG_VERBOSE);
 
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
-        log.i("-------------↓↓↓↓↓↓↓↓↓↓↓ " + getServiceSide() + " dubbo begin ↓↓↓↓↓↓↓↓↓↓↓↓↓-------------");
+        String serviceSide = getServiceSide();
+        log.i("-------------↓↓↓↓↓↓↓↓↓↓↓ " + serviceSide + " dubbo begin ↓↓↓↓↓↓↓↓↓↓↓↓↓-------------");
         long start = System.currentTimeMillis();
         Result result = null;
         String traceId = getTraceId(invocation);
@@ -38,17 +39,17 @@ public class RpcTraceLogFilter implements Filter {
             result = invoker.invoke(invocation);
             log.i("----------------------------------------------");
         } catch (RpcException ex) {
-            log.e("dubbo exception, traceId：" + traceId, ex);
+            log.e("dubbo RpcException, traceId：" + traceId, ex);
             throw ex;
         } finally {
             if (result != null && result.hasException()) {
-                log.e("dubbo exception, traceId：" + traceId, result.getException());
+                log.e("dubbo result exception, traceId：" + traceId, result.getException());
             } else {
                 log.i("dubbo result：" + JSON.toJSONString(result == null ? "" : result.getValue()));
             }
         }
         log.i("dubbo耗时：" + (System.currentTimeMillis() - start) + "ms");
-        log.i("-------------↑↑↑↑↑↑↑↑↑↑↑↑ " + getServiceSide() + " dubbo end ↑↑↑↑↑↑↑↑↑↑↑↑-------------");
+        log.i("-------------↑↑↑↑↑↑↑↑↑↑↑↑ " + serviceSide + " dubbo end ↑↑↑↑↑↑↑↑↑↑↑↑-------------");
         return result;
     }
 

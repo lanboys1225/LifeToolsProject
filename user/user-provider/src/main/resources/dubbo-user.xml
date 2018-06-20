@@ -5,18 +5,20 @@
        xsi:schemaLocation="http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
     <!--定义了提供方应用信息，用于计算依赖关系；在 dubbo-admin 或 dubbo-monitor 会显示这个名字，方便辨识-->
-    <dubbo:application name="user_provider" owner="user" organization="dubbo-user"/>
+    <dubbo:application name="dubbo_name_user" owner="dubbo_owner_user"
+                       organization="dubbo_organization_user"/>
 
     <!--使用 zookeeper 注册中心暴露服务，注意要先开启 zookeeper-->
     <dubbo:registry address="${dubbo_registry_address}"/>
 
     <!-- 用dubbo协议在 20880 端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="${dubbo_protocol_port_user}"/>
+    <dubbo:protocol name="dubbo" port="${user_dubbo_protocol_port}"/>
 
-    <dubbo:provider timeout="${dubbo_provider_timeout}" filter="CustomProviderExceptionFilter"/>
+    <dubbo:provider timeout="${dubbo_provider_timeout}" retries="${dubbo_provider_retries}"
+                    filter="CustomProviderExceptionFilter"/>
 
     <dubbo:service interface="com.bing.lan.project.userApi.DubboUserService"
                    ref="dubboUserServiceImpl"/>
-
 </beans>

@@ -1,10 +1,11 @@
 package com.bing.lan.project.api.controller;
 
+import com.bing.lan.core.api.LogUtil;
 import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.UserService;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
 import com.bing.lan.project.api.version.ApiVersion;
-import com.bing.lan.project.userApi.domain.UserBean;
+import com.bing.lan.project.userApi.domain.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,28 +20,37 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/{version}/user")
 public class UserController extends BaseController {
 
+    private final LogUtil log = LogUtil.getLogUtil(getClass(), LogUtil.LOG_VERBOSE);
+
     @Autowired
     private UserService userService;
 
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(1)
-    public UserBean login1(String mobile, String password, String nickName) {
-        return userService.doLogin(mobile + " 版本 1", password, nickName);
+    public User login1(String mobile, String password, String nickName) {
+        log.i("login1(): 版本1登录");
+        return login(mobile, password, nickName);
     }
 
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(2)
     @RequiredLogin
-    public UserBean login2(String mobile, String password, String nickName) {
-        return userService.doLogin(mobile + " 版本 2", password, nickName);
+    public User login2(String mobile, String password, String nickName) {
+        log.i("login2(): 版本2登录");
+        return login(mobile, password, nickName);
     }
 
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(5)
-    public UserBean login5(String mobile, String password, String nickName) {
-        return userService.doLogin(mobile + " 版本 5", password, nickName);
+    public User login5(String mobile, String password, String nickName) {
+        log.i("login5(): 版本5登录");
+        return login(mobile, password, nickName);
+    }
+
+    private User login(String mobile, String password, String nickName) {
+        return userService.doLogin(mobile, password, nickName);
     }
 }

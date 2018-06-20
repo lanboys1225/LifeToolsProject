@@ -19,6 +19,7 @@
             <list>
                 <value>classpath:config/${env}/zookeeper.properties</value>
                 <value>classpath:config/${env}/redis.properties</value>
+                <value>classpath:config/${env}/db.properties</value>
             </list>
         </property>
     </bean>

@@ -8,6 +8,8 @@ import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,6 +52,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         ApiResult<Object> apiResult = new ApiResult<Object>();
         apiResult.setCode(code);
         apiResult.setMsg(message);
+        apiResult.setTime(new Date());
         httpServletResponse.getWriter().write(JSON.json(apiResult));
     }
 }

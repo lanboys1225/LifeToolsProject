@@ -37,8 +37,8 @@ public class LogAspect {
         log.i("-------------↓↓↓↓↓↓↓↓↓↓↓↓ request begin ↓↓↓↓↓↓↓↓↓↓↓↓-------------");
         Object result = null;
         long start = System.currentTimeMillis();
+        begin();
         try {
-            begin();
             result = pjp.proceed();
             return result;
         } catch (Throwable throwable) {
@@ -67,23 +67,27 @@ public class LogAspect {
             log.i("request params：" + JSONObject.toJSON(request.getParameterMap()));
             log.i("----------------------------------------------");
         } catch (Exception e) {
-            log.e("log exception：", e);
+            log.e("log begin exception：", e);
         }
     }
 
     public void finallyInvoke(Object result) {
-        String resultStr = JSON.toJSONString(result == null ? "" : result);
-        if (resultStr.length() > 200) {
-            resultStr = resultStr.substring(0, 200);
-        }
+        try {
+            String resultStr = JSON.toJSONString(result == null ? "" : result);
+            if (resultStr.length() > 200) {
+                resultStr = resultStr.substring(0, 200);
+            }
 
-        log.i("traceId：" + RpcTraceHolder.getTraceId());
-        log.i("thread: " + Thread.currentThread().getName());
-        log.i("result：" + resultStr);
+            log.i("traceId：" + RpcTraceHolder.getTraceId());
+            log.i("thread: " + Thread.currentThread().getName());
+            log.i("result：" + resultStr);
+        } catch (Exception e) {
+            log.e("log finallyInvoke exception：", e);
+        }
     }
 
     public void rollback(Throwable throwable) {
-        throwable.printStackTrace();
+        //throwable.printStackTrace();
         log.e("请求异常, traceId：" + RpcTraceHolder.getTraceId(), throwable);
     }
 

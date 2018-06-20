@@ -9,5 +9,7 @@
 
     <import resource="classpath:core-context.xml"/>
     <import resource="classpath:dubbo-user.xml"/>
+    <import resource="classpath:mybatis.xml"/>
+
 
 </beans>

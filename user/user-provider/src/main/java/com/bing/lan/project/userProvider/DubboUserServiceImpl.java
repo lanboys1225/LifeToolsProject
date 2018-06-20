@@ -1,9 +1,10 @@
 package com.bing.lan.project.userProvider;
 
 import com.bing.lan.core.api.LogUtil;
-import com.bing.lan.exception.BaseException;
 import com.bing.lan.project.userApi.DubboUserService;
-import com.bing.lan.project.userApi.domain.UserBean;
+import com.bing.lan.project.userApi.domain.User;
+import com.bing.lan.project.userApi.exception.UserException;
+import com.bing.lan.project.userProvider.mapper.UserMapper;
 import com.bing.lan.redis.RedisClient;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,10 @@ public class DubboUserServiceImpl implements DubboUserService {
     @Autowired
     private RedisClient redisClient;
 
-    public UserBean doLogin(String mobile, String password) {
-        //System.out.println("DubboUserServiceImpl doLogin() >>>>>>" + mobile + " 登录成功");
-        log.i("doLogin() >>>>>>" + mobile + " 登录成功");
+    @Autowired
+    private UserMapper userMapper;
+
+    public User doLogin(String phone, String password) {
 
         try {
             String id = redisClient.getString("user_id");
@@ -33,17 +35,17 @@ public class DubboUserServiceImpl implements DubboUserService {
                 Integer integer = Integer.valueOf(id);
                 redisClient.putString("user_id", String.valueOf(++integer));
             }
+
+            log.i("doLogin() redis 缓存缓存缓存缓存缓存缓存缓存缓存 user_id: " + id);
         } catch (Exception e) {
-            log.e("doLogin():  " + e.getLocalizedMessage());
+            log.e("doLogin() redis 缓存缓存缓存缓存缓存缓存缓存异常：" + e.getLocalizedMessage());
         }
 
-        long l = Long.valueOf(password) % 2;
-        if (l == 0) {
-            int i = 12 / 0;
-        } else {
-            throw new BaseException("用户模块业务异常");
+        User user = userMapper.selectByPhoneAndPassword(phone, password);
+        if (user == null) {
+            throw new UserException("账号或密码错误");
         }
 
-        return new UserBean("1", mobile, password);
+        return user;
     }
 }

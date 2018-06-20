@@ -4,16 +4,16 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-
     <!--定义了提供方应用信息，用于计算依赖关系；在 dubbo-admin 或 dubbo-monitor 会显示这个名字，方便辨识-->
-    <dubbo:application name="api_consumer" owner="api" organization="dubbo-api"/>
+    <dubbo:application name="dubbo_name_api" owner="dubbo_owner_api"
+                       organization="dubbo_organization_api"/>
 
     <!--使用 zookeeper 注册中心暴露服务，注意要先开启 zookeeper-->
     <dubbo:registry address="${dubbo_registry_address}"/>
 
-    <dubbo:consumer timeout="${dubbo_provider_timeout}" filter="CustomConsumerExceptionFilter" />
+    <dubbo:consumer timeout="${dubbo_consumer_timeout}" retries="${dubbo_consumer_retries}"
+                    filter="CustomConsumerExceptionFilter"/>
 
     <dubbo:reference interface="com.bing.lan.project.userApi.DubboUserService"
-                     id="dubboUserService"/>
-
+                     id="dubboUserService" check="true"/>
 </beans>

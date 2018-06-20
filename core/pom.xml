@@ -214,7 +214,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
         <!-- 指定使用的 filter, 构建的时候进行替换-->
         <filters>
             <filter>src/main/resources/filters/${env}.properties</filter>
