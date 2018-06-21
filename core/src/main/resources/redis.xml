@@ -11,22 +11,6 @@
         <property name="testOnBorrow" value="true"/>
     </bean>
 
-    <context:property-placeholder location="classpath:redis.properties" />
-
-    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
-
-        <!--&lt;!&ndash; 配置单个配置文件 &ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="location" value="classpath:db.properties"/>&ndash;&gt;-->
-
-        <!--&lt;!&ndash; 配置多个配置文件 &ndash;&gt;-->
-        <!--<property name="locations">-->
-            <!--<list>-->
-                <!--<value>classpath:redis.properties</value>-->
-                <!--&lt;!&ndash; 邮箱配置 &ndash;&gt;-->
-                <!--&lt;!&ndash;<value>classpath:mail.properties</value>&ndash;&gt;-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
     <bean id="connectionFactory"
           class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
           p:hostName="${redis.host}"

@@ -127,8 +127,8 @@
         <!-- 日志文件管理包 -->
         <!--log start -->
         <!--<dependency>-->
-            <!--<groupId>log4j</groupId>-->
-            <!--<artifactId>log4j</artifactId>-->
+        <!--<groupId>log4j</groupId>-->
+        <!--<artifactId>log4j</artifactId>-->
         <!--</dependency>-->
         <!-- 格式化对象，方便输出日志 -->
         <dependency>
@@ -204,6 +204,19 @@
     </dependencies>
 
     <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <!-- 指定使用的 filter, 构建的时候进行替换-->
+        <filters>
+            <filter>src/main/resources/filters/${env}.properties</filter>
+        </filters>
+
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
