@@ -2,6 +2,7 @@ package com.bing.lan.project.api.controller;
 
 import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.UserService;
+import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
 import com.bing.lan.project.api.version.ApiVersion;
 import com.bing.lan.project.userApi.domain.UserBean;
 
@@ -31,6 +32,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(2)
+    @RequiredLogin
     public UserBean login2(String mobile, String password, String nickName) {
         return userService.doLogin(mobile + " 版本 2", password, nickName);
     }

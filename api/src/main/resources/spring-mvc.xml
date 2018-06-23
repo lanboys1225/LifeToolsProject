@@ -36,13 +36,13 @@
     <!--</bean>-->
 
     <!-- 配置拦截器 -->
-    <!--<mvc:interceptors>-->
-        <!--<mvc:interceptor>-->
-            <!--<mvc:mapping path="/*"/>-->
-            <!--<bean class="com.bing.lan.web.interceptor.LoginInterceptor"/>-->
-        <!--</mvc:interceptor>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*"/>
+            <bean class="com.bing.lan.project.api.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
 
-    <!--</mvc:interceptors>-->
+    </mvc:interceptors>
 
 
     <!-- 配置视图解析器 -->

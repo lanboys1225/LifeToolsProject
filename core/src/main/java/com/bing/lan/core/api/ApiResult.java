@@ -10,9 +10,11 @@ public class ApiResult<T> {
     public static final int HTTP_CODE_SUCCESS = 200;
     public static final int HTTP_CODE_FAIL = 500;
     public static final int HTTP_CODE_SERVICE_EXCEPTION = 501;
+    public static final int HTTP_CODE_NOT_LOGIN = 600;
 
-    public static final String HTTP_CODE_SUCCESS_MSG = "系统繁忙! 请稍后再试.. ";
-    public static final String HTTP_CODE_FAIL_MSG = "请求成功";
+    public static final String HTTP_CODE_SUCCESS_MSG = "请求成功";
+    public static final String HTTP_CODE_FAIL_MSG = "系统繁忙! 请稍后再试.. ";
+    public static final String HTTP_CODE_NOT_LOGIN_MSG = "请先登录";
 
     private int code = HTTP_CODE_SUCCESS;
 
@@ -23,6 +25,20 @@ public class ApiResult<T> {
     public static <T> ApiResult<T> objectFromData(String str) {
 
         return new Gson().fromJson(str, ApiResult.class);
+    }
+
+    public ApiResult() {
+    }
+
+    public ApiResult(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public ApiResult(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
     }
 
     public int getCode() {

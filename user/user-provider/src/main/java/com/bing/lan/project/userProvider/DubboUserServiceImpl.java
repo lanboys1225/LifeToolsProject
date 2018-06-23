@@ -1,6 +1,7 @@
 package com.bing.lan.project.userProvider;
 
 import com.bing.lan.core.api.LogUtil;
+import com.bing.lan.exception.BaseException;
 import com.bing.lan.project.userApi.DubboUserService;
 import com.bing.lan.project.userApi.domain.UserBean;
 import com.bing.lan.redis.RedisClient;
@@ -24,19 +25,23 @@ public class DubboUserServiceImpl implements DubboUserService {
         //System.out.println("DubboUserServiceImpl doLogin() >>>>>>" + mobile + " 登录成功");
         log.i("doLogin() >>>>>>" + mobile + " 登录成功");
 
-        String id = redisClient.getString("user_id");
-        if (id == null) {
-            redisClient.putString("user_id", "1");
-        } else {
-            Integer integer = Integer.valueOf(id);
-            redisClient.putString("user_id", String.valueOf(++integer));
+        try {
+            String id = redisClient.getString("user_id");
+            if (id == null) {
+                redisClient.putString("user_id", "1");
+            } else {
+                Integer integer = Integer.valueOf(id);
+                redisClient.putString("user_id", String.valueOf(++integer));
+            }
+        } catch (Exception e) {
+            log.e("doLogin():  " + e.getLocalizedMessage());
         }
 
         long l = Long.valueOf(password) % 2;
         if (l == 0) {
             int i = 12 / 0;
         } else {
-            throw new RuntimeException("用户模块业务异常");
+            throw new BaseException("用户模块业务异常");
         }
 
         return new UserBean("1", mobile, password);
