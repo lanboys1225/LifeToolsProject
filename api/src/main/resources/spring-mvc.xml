@@ -80,4 +80,17 @@
         <property name="requestContextAttribute" value="request"/>
     </bean>
 
+    <!--自定义异常处理-->
+    <bean id="customExceptionHandler" class="com.bing.lan.project.api.CustomExceptionHandler"/>
+
+    <!--JSON View begin-->
+    <bean id="mappingJackson2JsonView"
+        class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+        <!--直接返回对象，不包裹-->
+        <property name="extractValueFromSingleKeyModel" value="true"/>
+        <property name="objectMapper" ref="objectMapper"/>
+    </bean>
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
+    <!--JSON View end-->
+
 </beans>

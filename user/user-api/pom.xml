@@ -11,6 +11,11 @@
 
     <artifactId>user-api</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.bing.lan.project</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -13,10 +13,10 @@
     <packaging>war</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>com.bing.lan.project</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.bing.lan.project</groupId>-->
+            <!--<artifactId>core</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.bing.lan.project</groupId>
             <artifactId>user-api</artifactId>

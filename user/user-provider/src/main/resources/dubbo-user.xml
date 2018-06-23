@@ -14,7 +14,7 @@
     <!-- 用dubbo协议在 20880 端口暴露服务 -->
     <dubbo:protocol name="dubbo" port="${dubbo_protocol_port_user}"/>
 
-    <dubbo:provider timeout="${dubbo_provider_timeout}"/>
+    <dubbo:provider timeout="${dubbo_provider_timeout}" filter="CustomProviderExceptionFilter"/>
 
     <dubbo:service interface="com.bing.lan.project.userApi.DubboUserService"
                    ref="dubboUserServiceImpl"/>

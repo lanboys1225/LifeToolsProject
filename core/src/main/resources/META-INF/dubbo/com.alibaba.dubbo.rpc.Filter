@@ -1,1 +1,3 @@
 AccessLogFilter=com.bing.lan.rpc.RpcTraceLogFilter
+CustomProviderExceptionFilter=com.bing.lan.rpc.CustomProviderExceptionFilter
+CustomConsumerExceptionFilter=com.bing.lan.rpc.CustomConsumerExceptionFilter

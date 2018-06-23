@@ -32,6 +32,10 @@
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
         <!-- zookeeper -->
         <dependency>
             <groupId>org.apache.zookeeper</groupId>
@@ -144,11 +148,11 @@
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
         <!-- log end -->
-        <!-- 映入JSON -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-        </dependency>
+        <!--&lt;!&ndash; JSON &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.codehaus.jackson</groupId>-->
+            <!--<artifactId>jackson-mapper-asl</artifactId>-->
+        <!--</dependency>-->
         <!-- 上传组件包 -->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -204,7 +208,6 @@
     </dependencies>
 
     <build>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -221,14 +224,6 @@
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
             </plugin>
         </plugins>
     </build>

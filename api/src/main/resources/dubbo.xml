@@ -11,6 +11,8 @@
     <!--使用 zookeeper 注册中心暴露服务，注意要先开启 zookeeper-->
     <dubbo:registry address="${dubbo_registry_address}"/>
 
+    <dubbo:consumer timeout="${dubbo_provider_timeout}" filter="CustomConsumerExceptionFilter" />
+
     <dubbo:reference interface="com.bing.lan.project.userApi.DubboUserService"
                      id="dubboUserService"/>
 

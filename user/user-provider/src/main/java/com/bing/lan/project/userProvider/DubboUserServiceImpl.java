@@ -32,6 +32,13 @@ public class DubboUserServiceImpl implements DubboUserService {
             redisClient.putString("user_id", String.valueOf(++integer));
         }
 
-        return new UserBean(id, mobile, password);
+        long l = Long.valueOf(password) % 2;
+        if (l == 0) {
+            int i = 12 / 0;
+        } else {
+            throw new RuntimeException("用户模块业务异常");
+        }
+
+        return new UserBean("1", mobile, password);
     }
 }
