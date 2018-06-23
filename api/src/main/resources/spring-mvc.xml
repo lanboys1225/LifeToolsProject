@@ -19,15 +19,6 @@
     <!-- 支持对静态资源的处理 -->
     <mvc:default-servlet-handler/>
 
-    <!-- 添加对springMvc支持 否则注解方式失效 -->
-    <!--<mvc:annotation-driven>-->
-        <!--<mvc:message-converters>-->
-            <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
-                <!--<constructor-arg value="UTF-8"/>-->
-            <!--</bean>-->
-        <!--</mvc:message-converters>-->
-    <!--</mvc:annotation-driven>-->
-
     <!-- 配置文件上传解析器  名字需要固定 因为DispatcherServlet 写死了 MULTIPART_RESOLVER_BEAN_NAME-->
     <!--<bean id="multipartResolver"-->
           <!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
@@ -92,5 +83,22 @@
     </bean>
     <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"/>
     <!--JSON View end-->
+
+    <!-- 添加对springMvc支持 否则注解方式失效 -->
+    <!--<mvc:annotation-driven>-->
+    <!--<mvc:message-converters>-->
+    <!--<bean class="org.springframework.http.converter.StringHttpMessageConverter">-->
+    <!--<constructor-arg value="UTF-8"/>-->
+    <!--</bean>-->
+    <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
+
+    <!--<mvc:annotation-driven>-->
+        <!--<mvc:message-converters>-->
+            <!--<bean  id="jsonConverter" class="com.bing.lan.project.api.version.CustomMessageConverter">-->
+                <!--<property name="objectMapper" ref="objectMapper"/>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
+    <!--</mvc:annotation-driven>-->
 
 </beans>

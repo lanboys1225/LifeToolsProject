@@ -9,6 +9,8 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +32,7 @@ public class CustomExceptionHandler implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse, Object o, Exception e) {
         ApiResult<Object> apiResult = new ApiResult<Object>();
+        apiResult.setTime(new Date());
         ModelAndView mav = new ModelAndView();
         mav.setView(mappingJackson2JsonView);
         mav.addObject(apiResult);

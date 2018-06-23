@@ -2,6 +2,8 @@ package com.bing.lan.core.api;
 
 import com.google.gson.Gson;
 
+import java.util.Date;
+
 /**
  * 统一处理返回数据
  */
@@ -21,6 +23,8 @@ public class ApiResult<T> {
     private String msg = HTTP_CODE_SUCCESS_MSG;
 
     private T data;
+
+    private Date time;
 
     public static <T> ApiResult<T> objectFromData(String str) {
 
@@ -63,5 +67,13 @@ public class ApiResult<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }
