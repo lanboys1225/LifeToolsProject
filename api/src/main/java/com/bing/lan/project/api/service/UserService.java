@@ -1,4 +1,4 @@
-package com.bing.lan.project.api;
+package com.bing.lan.project.api.service;
 
 import com.bing.lan.project.userApi.domain.User;
 
@@ -7,5 +7,5 @@ import com.bing.lan.project.userApi.domain.User;
  */
 public interface UserService {
 
-    User doLogin(String mobile, String password, String nickName);
+    User doLogin(String mobile, String password);
 }

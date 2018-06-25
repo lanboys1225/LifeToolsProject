@@ -14,6 +14,6 @@
     <dubbo:consumer timeout="${dubbo_consumer_timeout}" retries="${dubbo_consumer_retries}"
                     filter="CustomConsumerExceptionFilter"/>
 
-    <dubbo:reference interface="com.bing.lan.project.userApi.DubboUserService"
+    <dubbo:reference interface="com.bing.lan.project.userApi.service.DubboUserService"
                      id="dubboUserService" check="true"/>
 </beans>

@@ -14,7 +14,7 @@
     <dubbo:registry address="${dubbo_registry_address}"/>
 
     <!-- 用dubbo协议在 20880 端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="${user_dubbo_protocol_port}"/>
+    <dubbo:protocol name="dubbo" port="24567"/>
 
     <dubbo:provider timeout="${dubbo_provider_timeout}" retries="${dubbo_provider_retries}"
                     filter="CustomProviderExceptionFilter"/>

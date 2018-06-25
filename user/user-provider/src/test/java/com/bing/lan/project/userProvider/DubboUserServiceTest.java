@@ -1,6 +1,8 @@
 package com.bing.lan.project.userProvider;
 
-import com.bing.lan.project.userApi.DubboUserService;
+import com.bing.lan.project.userApi.constants.RedisConstant;
+import com.bing.lan.project.userApi.service.DubboUserService;
+import com.bing.lan.redis.RedisClient;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,15 +16,33 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = "classpath:user-provider-context.xml")
+@ContextConfiguration(value = "classpath:user-provider-context-test.xml")
 public class DubboUserServiceTest {
 
     @Autowired
     private ApplicationContext context;
 
+    @Autowired
+    private RedisClient redisClient;
+
+    @Autowired
+    private DubboUserService dubboUserService;
+
+    /**
+     * 测试登录
+     */
     @Test
     public void testDubboUserServiceDoLogin() {
-        DubboUserService dubboUserService = context.getBean(DubboUserService.class);
-        dubboUserService.doLogin("110", "120");
+        dubboUserService.doLogin("13556000000", "12345");
+    }
+
+    /**
+     * 清除redis 密码错误次数 缓存
+     */
+    @Test
+    public void testCleanRedisPwdErrorNum() {
+        String user_id = "1";
+        String key = RedisConstant.REDIS_PWD_ERROR_NUM_KEY + user_id;
+        redisClient.putString(key, "0");
     }
 }

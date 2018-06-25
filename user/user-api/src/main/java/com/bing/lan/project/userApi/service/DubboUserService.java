@@ -1,4 +1,4 @@
-package com.bing.lan.project.userApi;
+package com.bing.lan.project.userApi.service;
 
 import com.bing.lan.project.userApi.domain.User;
 

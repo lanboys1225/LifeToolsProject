@@ -2,7 +2,7 @@ package com.bing.lan.project.api.controller;
 
 import com.bing.lan.core.api.LogUtil;
 import com.bing.lan.project.api.BaseController;
-import com.bing.lan.project.api.UserService;
+import com.bing.lan.project.api.service.UserService;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
 import com.bing.lan.project.api.version.ApiVersion;
 import com.bing.lan.project.userApi.domain.User;
@@ -28,29 +28,29 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(1)
-    public User login1(String mobile, String password, String nickName) {
+    public User login1(String mobile, String password) {
         log.i("login1(): 版本1登录");
-        return login(mobile, password, nickName);
+        return login(mobile, password);
     }
 
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(2)
     @RequiredLogin
-    public User login2(String mobile, String password, String nickName) {
+    public User login2(String mobile, String password) {
         log.i("login2(): 版本2登录");
-        return login(mobile, password, nickName);
+        return login(mobile, password);
     }
 
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(5)
-    public User login5(String mobile, String password, String nickName) {
+    public User login5(String mobile, String password) {
         log.i("login5(): 版本5登录");
-        return login(mobile, password, nickName);
+        return login(mobile, password);
     }
 
-    private User login(String mobile, String password, String nickName) {
-        return userService.doLogin(mobile, password, nickName);
+    private User login(String mobile, String password) {
+        return userService.doLogin(mobile, password);
     }
 }

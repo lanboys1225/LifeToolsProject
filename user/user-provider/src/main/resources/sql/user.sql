@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-06-21 17:59:11
+Date: 2018-06-25 15:53:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,10 +25,12 @@ CREATE TABLE `user` (
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
   `user_name` varchar(30) DEFAULT NULL COMMENT '用户名',
   `nickname` varchar(30) DEFAULT NULL COMMENT '用户昵称',
+  `is_delete` varchar(20) NOT NULL DEFAULT 'N' COMMENT 'Y 已删除 N 未删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '13556000000', '12345', 'lanboys', 'lanboys');
+INSERT INTO `user` VALUES ('1', '13556000000', '12345', 'lanboys', 'lanboys', 'N');
+INSERT INTO `user` VALUES ('2', '13556000001', '12345', ' ', null, 'Y');
