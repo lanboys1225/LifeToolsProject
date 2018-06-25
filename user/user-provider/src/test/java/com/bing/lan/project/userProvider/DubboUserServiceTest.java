@@ -33,7 +33,8 @@ public class DubboUserServiceTest {
      */
     @Test
     public void testDubboUserServiceDoLogin() {
-        dubboUserService.doLogin("13556000000", "12345");
+        dubboUserService.doLogin("13556000000", "12345", "v1.0.0", "bakjoiggalddfdf",
+                "pc", "", "192.168.8.240");
     }
 
     /**

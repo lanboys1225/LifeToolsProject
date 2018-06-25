@@ -3,9 +3,11 @@ package com.bing.lan.project.userProvider.service.impl;
 import com.bing.lan.core.api.LogUtil;
 import com.bing.lan.project.userApi.constants.Constant;
 import com.bing.lan.project.userApi.constants.RedisConstant;
+import com.bing.lan.project.userApi.domain.LoginLog;
 import com.bing.lan.project.userApi.domain.User;
 import com.bing.lan.project.userApi.exception.UserException;
 import com.bing.lan.project.userApi.service.DubboUserService;
+import com.bing.lan.project.userProvider.mapper.LoginLogMapper;
 import com.bing.lan.project.userProvider.mapper.UserMapper;
 import com.bing.lan.redis.RedisClient;
 
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by 蓝兵 on 2018/6/13.
@@ -31,15 +34,40 @@ public class DubboUserServiceImpl implements DubboUserService {
     @Autowired
     private UserMapper userMapper;
 
-    public User doLogin(String phone, String password) {
+    @Autowired
+    private LoginLogMapper loginLogMapper;
+
+    public User doLogin(String phone, String password, String version, String deviceId,
+            String platform, String channel, String ip) {
 
         User user = userMapper.selectByPhone(phone);
-        if (user == null || "Y".equalsIgnoreCase(user.getIsDelete())) {
+        LoginLog loginLog = new LoginLog();
+        loginLog.setPhone(phone);
+        loginLog.setDate(new Date());
+        loginLog.setIp(ip);
+        loginLog.setChannel(channel);
+        loginLog.setPlatform(platform);
+        loginLog.setDeviceId(deviceId);
+        loginLog.setVersion(version);
+
+        if (user == null) {
+            loginLog.setStatus("2");
+            loginLogMapper.insert(loginLog);
             throw new UserException("用户不存在");
         }
 
+        loginLog.setUserName(user.getUserName());
+        loginLog.setUserId(user.getId());
+
+        if ("Y".equalsIgnoreCase(user.getIsDelete())) {
+            loginLog.setStatus("3");
+            loginLogMapper.insert(loginLog);
+            throw new UserException("用户被删除");
+        }
 
         if (StringUtils.isBlank(user.getPassword())) {
+            loginLog.setStatus("4");
+            loginLogMapper.insert(loginLog);
             throw new UserException("您还未设置登录密码，请重置密码");
         }
 
@@ -51,6 +79,8 @@ public class DubboUserServiceImpl implements DubboUserService {
         if (!StringUtils.isBlank(user.getPassword())) {
             num = Integer.parseInt(errorNum);
             if (num >= Constant.ERROR_PWD_NUM) {
+                loginLog.setStatus("6");
+                loginLogMapper.insert(loginLog);
                 throw new UserException("您输入的密码错误，今日机会已用完，请找回密码");
             }
         }
@@ -62,12 +92,17 @@ public class DubboUserServiceImpl implements DubboUserService {
                     DateUtils.getFragmentInMilliseconds(Calendar.getInstance(), Calendar.DATE);
 
             redisClient.putString(key, (num + 1) + "", milliSecondsLeftToday / 1000);
+            loginLog.setStatus("5");
+            loginLogMapper.insert(loginLog);
 
             throw new UserException("您输入的密码错误，今日还有" + (Constant.ERROR_PWD_NUM - num - 1) + "次输入机会");
         }
 
         //登陆成功 redis密码错误次数清0
         redisClient.putString(key, "0");
+
+        loginLog.setStatus("0");
+        loginLogMapper.insert(loginLog);
 
         return user;
     }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bing.lan.project.userProvider.mapper.LoginLogMapper">
+    <resultMap id="BaseResultMap" type="com.bing.lan.project.userApi.domain.LoginLog">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="token_expire_time" property="tokenExpireTime" jdbcType="TIMESTAMP"/>
+        <result column="date" property="date" jdbcType="TIMESTAMP"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="device_id" property="deviceId" jdbcType="VARCHAR"/>
+        <result column="platform" property="platform" jdbcType="VARCHAR"/>
+        <result column="channel" property="channel" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM login_log
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.bing.lan.project.userApi.domain.LoginLog"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO login_log (user_id, phone, user_name,
+                               status, token, token_expire_time,
+                               date, ip, version,
+                               device_id, platform, channel
+        )
+        VALUES (#{userId,jdbcType=BIGINT}, #{phone,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+                                           #{status,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR},
+                                           #{tokenExpireTime,jdbcType=TIMESTAMP},
+                                           #{date,jdbcType=TIMESTAMP}, #{ip,jdbcType=VARCHAR},
+                                           #{version,jdbcType=VARCHAR},
+                                           #{deviceId,jdbcType=VARCHAR},
+                                           #{platform,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bing.lan.project.userApi.domain.LoginLog">
+        UPDATE login_log
+        SET user_id           = #{userId,jdbcType=BIGINT},
+            phone             = #{phone,jdbcType=VARCHAR},
+            user_name         = #{userName,jdbcType=VARCHAR},
+            status            = #{status,jdbcType=VARCHAR},
+            token             = #{token,jdbcType=VARCHAR},
+            token_expire_time = #{tokenExpireTime,jdbcType=TIMESTAMP},
+            date              = #{date,jdbcType=TIMESTAMP},
+            ip                = #{ip,jdbcType=VARCHAR},
+            version           = #{version,jdbcType=VARCHAR},
+            device_id         = #{deviceId,jdbcType=VARCHAR},
+            platform          = #{platform,jdbcType=VARCHAR},
+            channel           = #{channel,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+            id,
+            user_id,
+            phone,
+            user_name,
+            status,
+            token,
+            token_expire_time,
+            date,
+            ip,
+            version,
+            device_id,
+            platform,
+            channel
+        FROM login_log
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT
+            id,
+            user_id,
+            phone,
+            user_name,
+            status,
+            token,
+            token_expire_time,
+            date,
+            ip,
+            version,
+            device_id,
+            platform,
+            channel
+        FROM login_log
+    </select>
+</mapper>

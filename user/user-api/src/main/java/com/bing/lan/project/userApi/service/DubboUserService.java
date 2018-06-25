@@ -7,5 +7,6 @@ import com.bing.lan.project.userApi.domain.User;
  */
 public interface DubboUserService {
 
-    User doLogin(String phone, String password);
+    User doLogin(String phone, String password, String version, String deviceId,
+            String platform, String channel, String ip);
 }

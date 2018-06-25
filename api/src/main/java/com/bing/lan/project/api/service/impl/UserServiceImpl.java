@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User doLogin(String mobile, String password) {
-        System.out.println("UserServiceImpl doLogin() >>>>>>" + mobile + " 请求登录");
-        return dubboUserService.doLogin(mobile, password);
+        return dubboUserService.doLogin(mobile, password, "v1.0.0", "bakjoiggalddfdf",
+                "pc", "", "192.168.8.240");
     }
 }
