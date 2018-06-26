@@ -10,6 +10,7 @@ import com.bing.lan.project.userApi.service.DubboUserService;
 import com.bing.lan.project.userProvider.mapper.LoginLogMapper;
 import com.bing.lan.project.userProvider.mapper.UserMapper;
 import com.bing.lan.redis.RedisClient;
+import com.bing.lan.utils.JavaWebTokenUtil;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -18,6 +19,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import io.jsonwebtoken.Claims;
+
+import static com.bing.lan.project.userApi.constants.Constant.TOKEN_EXPIRE_TIME;
+import static com.bing.lan.project.userApi.constants.Constant.USER_ID;
 
 /**
  * Created by 蓝兵 on 2018/6/13.
@@ -100,6 +108,19 @@ public class DubboUserServiceImpl implements DubboUserService {
 
         //登陆成功 redis密码错误次数清0
         redisClient.putString(key, "0");
+
+        // 过期时间
+        Date date = new Date(System.currentTimeMillis() + TOKEN_EXPIRE_TIME);
+        Map<String, Object> map = new HashMap<>();
+        map.put(Claims.EXPIRATION, date);
+        map.put(USER_ID, String.valueOf(user.getId()));
+        // 生成token
+        String token = JavaWebTokenUtil.createJavaWebToken(map);
+
+        redisClient.putString(RedisConstant.REDIS_TOKEN_KEY + user.getId(), token);
+
+        loginLog.setToken(token);
+        loginLog.setTokenExpireTime(date);
 
         loginLog.setStatus("0");
         loginLogMapper.insert(loginLog);

@@ -8,4 +8,5 @@ public class RedisConstant {
 
     // 密码错误次数
     public static final String REDIS_PWD_ERROR_NUM_KEY = "redis_pwd_error_num_key_";
+    public static final String REDIS_TOKEN_KEY = "redis_token_key_";
 }
