@@ -45,11 +45,36 @@ public class DubboUserServiceImpl implements DubboUserService {
     @Autowired
     private LoginLogMapper loginLogMapper;
 
+    @Override
+    public User doRegister(String phone, String password, String nickName, String userName,
+            String version, String deviceId, String platform, String channel, String ip) {
+
+        User user = userMapper.selectByPhone(phone);
+        if (user != null) {
+            throw new UserException("用户早已存在");
+        }
+        if (StringUtils.isBlank(phone)) {
+            throw new UserException("请填写手机号");
+        }
+
+        user = User.builder()
+                .userName(userName)
+                .nickname(nickName)
+                .password(password)
+                .phone(phone)
+                .build();
+
+        userMapper.insert(user);
+        return user;
+    }
+
+    @Override
     public User doLogin(String phone, String password, String version, String deviceId,
             String platform, String channel, String ip) {
 
         User user = userMapper.selectByPhone(phone);
-        LoginLog loginLog = new LoginLog();
+        LoginLog loginLog = LoginLog.builder().build();
+
         loginLog.setPhone(phone);
         loginLog.setDate(new Date());
         loginLog.setIp(ip);

@@ -7,5 +7,7 @@ import com.bing.lan.project.userApi.domain.User;
  */
 public interface UserService {
 
-    User doLogin(String mobile, String password);
+    User doLogin(String phone, String password);
+
+    User doRegister(String phone, String password);
 }

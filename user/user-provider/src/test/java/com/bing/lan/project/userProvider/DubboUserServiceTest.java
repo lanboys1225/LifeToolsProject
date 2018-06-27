@@ -38,6 +38,15 @@ public class DubboUserServiceTest {
     }
 
     /**
+     * 测试登录
+     */
+    @Test
+    public void testDubboUserServiceDoRegister() {
+        dubboUserService.doRegister("13556000000", "", "", "12345", "v1.0.0", "bakjoiggalddfdf",
+                "pc", "", "192.168.8.240");
+    }
+
+    /**
      * 清除redis 密码错误次数 缓存
      */
     @Test

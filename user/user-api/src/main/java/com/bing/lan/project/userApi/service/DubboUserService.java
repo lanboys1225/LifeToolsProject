@@ -9,4 +9,7 @@ public interface DubboUserService {
 
     User doLogin(String phone, String password, String version, String deviceId,
             String platform, String channel, String ip);
+
+    User doRegister(String phone, String password, String nickName, String userName,
+            String version, String deviceId, String platform, String channel, String ip);
 }

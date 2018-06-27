@@ -18,8 +18,14 @@ public class UserServiceImpl implements UserService {
     private DubboUserService dubboUserService;
 
     @Override
-    public User doLogin(String mobile, String password) {
-        return dubboUserService.doLogin(mobile, password, "v1.0.0", "bakjoiggalddfdf",
+    public User doLogin(String phone, String password) {
+        return dubboUserService.doLogin(phone, password, "v1.0.0", "bakjoiggalddfdf",
+                "pc", "", "192.168.8.240");
+    }
+
+    @Override
+    public User doRegister(String phone, String password) {
+        return dubboUserService.doRegister(phone, password, "", "", "v1.0.0", "bakjoiggalddfdf",
                 "pc", "", "192.168.8.240");
     }
 }

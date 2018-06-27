@@ -1,15 +1,21 @@
 package com.bing.lan.project.userApi.domain;
 
+import com.bing.lan.BaseDomain;
+
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@ToString
-public class LoginLog {
+@Builder
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginLog extends BaseDomain {
 
     private Long id;
 

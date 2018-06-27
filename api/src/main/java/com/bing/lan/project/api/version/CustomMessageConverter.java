@@ -1,8 +1,10 @@
 package com.bing.lan.project.api.version;
 
+import com.bing.lan.BaseDomain;
 import com.bing.lan.core.api.ApiResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -28,8 +30,12 @@ public class CustomMessageConverter extends MappingJackson2HttpMessageConverter 
     protected void writeInternal(Object respContent, HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
 
-        ApiResult<Object> apiResult = new ApiResult<>();
-        apiResult.setData(respContent);
+        ApiResult<BaseDomain> apiResult = new ApiResult<>();
+        BaseDomain domain = (BaseDomain) respContent;
+        if (!StringUtils.isBlank(domain.getMsg())) {
+            apiResult.setMsg(domain.getMsg());
+        }
+        apiResult.setData(domain);
         apiResult.setTime(new Date());
         super.writeInternal(apiResult, outputMessage);
     }
@@ -38,8 +44,12 @@ public class CustomMessageConverter extends MappingJackson2HttpMessageConverter 
     protected void writeInternal(Object respContent, Type type, HttpOutputMessage outputMessage)
             throws IOException, HttpMessageNotWritableException {
 
-        ApiResult<Object> apiResult = new ApiResult<>();
-        apiResult.setData(respContent);
+        ApiResult<BaseDomain> apiResult = new ApiResult<>();
+        BaseDomain domain = (BaseDomain) respContent;
+        if (!StringUtils.isBlank(domain.getMsg())) {
+            apiResult.setMsg(domain.getMsg());
+        }
+        apiResult.setData(domain);
         apiResult.setTime(new Date());
         super.writeInternal(apiResult, type, outputMessage);
     }
