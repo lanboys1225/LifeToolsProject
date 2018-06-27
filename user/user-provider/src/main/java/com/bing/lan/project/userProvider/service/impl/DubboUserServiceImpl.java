@@ -1,13 +1,15 @@
 package com.bing.lan.project.userProvider.service.impl;
 
 import com.bing.lan.core.api.LogUtil;
+import com.bing.lan.domain.CommRequestParams;
 import com.bing.lan.project.userApi.constants.Constant;
 import com.bing.lan.project.userApi.constants.RedisConstant;
-import com.bing.lan.project.userApi.domain.LoginLog;
+import com.bing.lan.project.userApi.domain.ResetPasswordResult;
 import com.bing.lan.project.userApi.domain.User;
+import com.bing.lan.project.userApi.domain.UserLog;
 import com.bing.lan.project.userApi.exception.UserException;
 import com.bing.lan.project.userApi.service.DubboUserService;
-import com.bing.lan.project.userProvider.mapper.LoginLogMapper;
+import com.bing.lan.project.userProvider.mapper.UserLogMapper;
 import com.bing.lan.project.userProvider.mapper.UserMapper;
 import com.bing.lan.redis.RedisClient;
 import com.bing.lan.utils.JavaWebTokenUtil;
@@ -43,65 +45,139 @@ public class DubboUserServiceImpl implements DubboUserService {
     private UserMapper userMapper;
 
     @Autowired
-    private LoginLogMapper loginLogMapper;
+    private UserLogMapper userLogMapper;
 
-    @Override
-    public User doRegister(String phone, String password, String nickName, String userName,
-            String version, String deviceId, String platform, String channel, String ip) {
-
-        User user = userMapper.selectByPhone(phone);
-        if (user != null) {
-            throw new UserException("用户早已存在");
-        }
+    /**
+     * 根据手机号查询用户
+     */
+    private User selectByPhone(String phone) {
         if (StringUtils.isBlank(phone)) {
             throw new UserException("请填写手机号");
         }
+        return userMapper.selectByPhone(phone);
+    }
 
+    @Override
+    public User doRegister(CommRequestParams commRequestParams, String phone,
+            String password, String nickName, String userName) {
+
+        User user = selectByPhone(phone);
+        Date time = new Date();
+
+        UserLog userLog = UserLog.builder().build();
+        userLog.setLogType("register");
+        userLog.setPhone(phone);
+        userLog.setCreateTime(time);
+
+        userLog.setIp(commRequestParams.getIp());
+        userLog.setChannel(commRequestParams.getChannel());
+        userLog.setPlatform(commRequestParams.getPlatform());
+        userLog.setDeviceId(commRequestParams.getDeviceId());
+        userLog.setVersion(commRequestParams.getVersion());
+
+        if (user != null) {
+            userLog.setUserId(user.getId());
+            userLog.setComment("用户早已存在");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
+        }
         user = User.builder()
                 .userName(userName)
                 .nickname(nickName)
                 .password(password)
                 .phone(phone)
+                .createTime(time)
+                .updateTime(time)
                 .build();
 
         userMapper.insert(user);
+        userLog.setUserId(user.getId());
+        userLogMapper.insert(userLog);
+
         return user;
     }
 
     @Override
-    public User doLogin(String phone, String password, String version, String deviceId,
-            String platform, String channel, String ip) {
+    public ResetPasswordResult resetLoginPassword(CommRequestParams commRequestParams, String phone,
+            String password, String newPassword) {
 
-        User user = userMapper.selectByPhone(phone);
-        LoginLog loginLog = LoginLog.builder().build();
+        User user = selectByPhone(phone);
 
-        loginLog.setPhone(phone);
-        loginLog.setDate(new Date());
-        loginLog.setIp(ip);
-        loginLog.setChannel(channel);
-        loginLog.setPlatform(platform);
-        loginLog.setDeviceId(deviceId);
-        loginLog.setVersion(version);
+        UserLog userLog = UserLog.builder().build();
+        userLog.setLogType("resetPassword");
+        userLog.setPhone(phone);
+        userLog.setCreateTime(new Date());
+
+        userLog.setIp(commRequestParams.getIp());
+        userLog.setChannel(commRequestParams.getChannel());
+        userLog.setPlatform(commRequestParams.getPlatform());
+        userLog.setDeviceId(commRequestParams.getDeviceId());
+        userLog.setVersion(commRequestParams.getVersion());
 
         if (user == null) {
-            loginLog.setStatus("2");
-            loginLogMapper.insert(loginLog);
-            throw new UserException("用户不存在");
+            userLog.setComment("用户不存在");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
         }
 
-        loginLog.setUserName(user.getUserName());
-        loginLog.setUserId(user.getId());
+        userLog.setUserId(user.getId());
+        if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
+            userLog.setComment("参数异常");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
+        }
+        if (!password.equals(user.getPassword())) {
+            userLog.setComment("密码不正确");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
+        }
+        user.setPassword(newPassword);
+        user.setUpdateTime(new Date());
+        userMapper.updateByPrimaryKey(user);
+        userLogMapper.insert(userLog);
+        userLogMapper.insert(userLog);
+
+        return ResetPasswordResult.builder().isResetSuccess(true).build();
+    }
+
+    @Override
+    public User doLogin(CommRequestParams commRequestParams, String phone, String password) {
+
+        User user = selectByPhone(phone);
+        UserLog userLog = UserLog.builder().build();
+
+        userLog.setLogType("login");
+        userLog.setPhone(phone);
+        userLog.setCreateTime(new Date());
+
+        userLog.setIp(commRequestParams.getIp());
+        userLog.setChannel(commRequestParams.getChannel());
+        userLog.setPlatform(commRequestParams.getPlatform());
+        userLog.setDeviceId(commRequestParams.getDeviceId());
+        userLog.setVersion(commRequestParams.getVersion());
+
+        if (user == null) {
+            userLog.setLoginStatus("2");
+            userLog.setComment("用户不存在");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
+        }
+
+        userLog.setUserName(user.getUserName());
+        userLog.setUserId(user.getId());
 
         if ("Y".equalsIgnoreCase(user.getIsDelete())) {
-            loginLog.setStatus("3");
-            loginLogMapper.insert(loginLog);
-            throw new UserException("用户被删除");
+            userLog.setLoginStatus("3");
+            userLog.setComment("用户被删除");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
         }
 
         if (StringUtils.isBlank(user.getPassword())) {
-            loginLog.setStatus("4");
-            loginLogMapper.insert(loginLog);
-            throw new UserException("您还未设置登录密码，请重置密码");
+            userLog.setLoginStatus("4");
+            userLog.setComment("您还未设置登录密码，请重置密码");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
         }
 
         String key = RedisConstant.REDIS_PWD_ERROR_NUM_KEY + user.getId();
@@ -112,9 +188,10 @@ public class DubboUserServiceImpl implements DubboUserService {
         if (!StringUtils.isBlank(user.getPassword())) {
             num = Integer.parseInt(errorNum);
             if (num >= Constant.ERROR_PWD_NUM) {
-                loginLog.setStatus("6");
-                loginLogMapper.insert(loginLog);
-                throw new UserException("您输入的密码错误，今日机会已用完，请找回密码");
+                userLog.setLoginStatus("6");
+                userLog.setComment("您输入的密码错误，今日机会已用完，请找回密码");
+                userLogMapper.insert(userLog);
+                throw new UserException(userLog.getComment());
             }
         }
 
@@ -125,10 +202,10 @@ public class DubboUserServiceImpl implements DubboUserService {
                     DateUtils.getFragmentInMilliseconds(Calendar.getInstance(), Calendar.DATE);
 
             redisClient.putString(key, (num + 1) + "", milliSecondsLeftToday / 1000);
-            loginLog.setStatus("5");
-            loginLogMapper.insert(loginLog);
-
-            throw new UserException("您输入的密码错误，今日还有" + (Constant.ERROR_PWD_NUM - num - 1) + "次输入机会");
+            userLog.setLoginStatus("5");
+            userLog.setComment("您输入的密码错误，今日还有 " + (Constant.ERROR_PWD_NUM - num - 1) + "次输入机会");
+            userLogMapper.insert(userLog);
+            throw new UserException(userLog.getComment());
         }
 
         //登陆成功 redis密码错误次数清0
@@ -144,11 +221,11 @@ public class DubboUserServiceImpl implements DubboUserService {
 
         redisClient.putString(RedisConstant.REDIS_TOKEN_KEY + user.getId(), token);
 
-        loginLog.setToken(token);
-        loginLog.setTokenExpireTime(date);
+        userLog.setToken(token);
+        userLog.setTokenExpireTime(date);
 
-        loginLog.setStatus("0");
-        loginLogMapper.insert(loginLog);
+        userLog.setLoginStatus("0");
+        userLogMapper.insert(userLog);
 
         return user;
     }

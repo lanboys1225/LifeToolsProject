@@ -1,5 +1,7 @@
 package com.bing.lan.project.api.service;
 
+import com.bing.lan.domain.CommRequestParams;
+import com.bing.lan.project.userApi.domain.ResetPasswordResult;
 import com.bing.lan.project.userApi.domain.User;
 
 /**
@@ -7,7 +9,10 @@ import com.bing.lan.project.userApi.domain.User;
  */
 public interface UserService {
 
-    User doLogin(String phone, String password);
+    User doLogin(CommRequestParams commRequestParams, String phone, String password);
 
-    User doRegister(String phone, String password);
+    User doRegister(CommRequestParams commRequestParams, String phone, String password);
+
+    ResetPasswordResult resetLoginPassword(CommRequestParams commRequestParams, String phone,
+            String password, String newPassword);
 }

@@ -1,6 +1,6 @@
 package com.bing.lan.project.userApi.domain;
 
-import com.bing.lan.BaseDomain;
+import com.bing.lan.domain.BaseDomain;
 
 import java.util.Date;
 
@@ -15,9 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginLog extends BaseDomain {
+public class UserLog extends BaseDomain {
 
     private Long id;
+
+    private String logType;
 
     private Long userId;
 
@@ -25,13 +27,13 @@ public class LoginLog extends BaseDomain {
 
     private String userName;
 
-    private String status;
+    private String loginStatus;
 
     private String token;
 
     private Date tokenExpireTime;
 
-    private Date date;
+    private Date createTime;
 
     private String ip;
 
@@ -42,4 +44,6 @@ public class LoginLog extends BaseDomain {
     private String platform;
 
     private String channel;
+
+    private String comment;
 }

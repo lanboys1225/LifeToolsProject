@@ -1,5 +1,6 @@
 package com.bing.lan.project.userProvider;
 
+import com.bing.lan.domain.CommRequestParams;
 import com.bing.lan.project.userApi.constants.RedisConstant;
 import com.bing.lan.project.userApi.service.DubboUserService;
 import com.bing.lan.redis.RedisClient;
@@ -28,22 +29,15 @@ public class DubboUserServiceTest {
     @Autowired
     private DubboUserService dubboUserService;
 
-    /**
-     * 测试登录
-     */
-    @Test
-    public void testDubboUserServiceDoLogin() {
-        dubboUserService.doLogin("13556000000", "12345", "v1.0.0", "bakjoiggalddfdf",
-                "pc", "", "192.168.8.240");
-    }
+    private CommRequestParams commRequestParams;
 
-    /**
-     * 测试登录
-     */
-    @Test
-    public void testDubboUserServiceDoRegister() {
-        dubboUserService.doRegister("13556000000", "", "", "12345", "v1.0.0", "bakjoiggalddfdf",
-                "pc", "", "192.168.8.240");
+    {
+        commRequestParams = CommRequestParams.builder()
+                .platform("android")
+                .ip("127.9.0.121")
+                .version("v1.1.2")
+                .channel("tengxun")
+                .build();
     }
 
     /**
@@ -54,5 +48,32 @@ public class DubboUserServiceTest {
         String user_id = "1";
         String key = RedisConstant.REDIS_PWD_ERROR_NUM_KEY + user_id;
         redisClient.putString(key, "0");
+    }
+
+    /**
+     * 测试登录
+     */
+    @Test
+    public void testDubboUserServiceDoLogin() {
+        dubboUserService.doLogin(commRequestParams, "13556000000",
+                "12345");
+    }
+
+    /**
+     * 测试注册
+     */
+    @Test
+    public void testDubboUserServiceDoRegister() {
+        dubboUserService.doRegister(commRequestParams, "13556000000",
+                "", "", "");
+    }
+
+    /**
+     * 测试重置支付密码
+     */
+    @Test
+    public void testDubboUserServiceResetLoginPassword() {
+        dubboUserService.resetLoginPassword(commRequestParams, "13556000000",
+                "12345", "123456");
     }
 }

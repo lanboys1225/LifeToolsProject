@@ -1,6 +1,8 @@
-package com.bing.lan;
+package com.bing.lan.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
 
 import lombok.Data;
 
@@ -9,7 +11,7 @@ import lombok.Data;
  */
 
 @Data
-public class BaseDomain {
+public class BaseDomain implements Serializable {
 
     @JsonIgnore
     private String msg;

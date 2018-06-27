@@ -1,10 +1,12 @@
 package com.bing.lan.project.api.controller;
 
 import com.bing.lan.core.api.LogUtil;
+import com.bing.lan.domain.CommRequestParams;
 import com.bing.lan.project.api.BaseController;
-import com.bing.lan.project.api.service.UserService;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
+import com.bing.lan.project.api.service.UserService;
 import com.bing.lan.project.api.version.ApiVersion;
+import com.bing.lan.project.userApi.domain.ResetPasswordResult;
 import com.bing.lan.project.userApi.domain.User;
 import com.bing.lan.project.userApi.exception.UserException;
 
@@ -26,6 +28,16 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
+    private CommRequestParams commRequestParams;
+
+    {
+        commRequestParams = CommRequestParams.builder()
+                .platform("android")
+                .ip("127.9.0.121")
+                .version("v1.1.2")
+                .channel("tengxun")
+                .build();
+    }
 
     @ResponseBody
     @RequestMapping("/login")
@@ -65,18 +77,34 @@ public class UserController extends BaseController {
         if (StringUtils.isBlank(password)) {
             throw new UserException("请填写登录密码");
         }
-        return userService.doLogin(phone, password);
+        return userService.doLogin(commRequestParams, phone, password);
     }
 
     @ResponseBody
     @RequestMapping("/register")
     @ApiVersion(1)
-    public User register(String phone, String password) {
+    public User register1(String phone, String password) {
         if (StringUtils.isBlank(phone)) {
             throw new UserException("请填写手机号码");
         }
-        User user = userService.doRegister(phone, password);
+        User user = userService.doRegister(commRequestParams, phone, password);
         user.setMsg("注册成功");
         return user;
+    }
+
+    @ResponseBody
+    @RequestMapping("/resetLoginPassword")
+    @ApiVersion(1)
+    public ResetPasswordResult resetLoginPassword1(String phone, String password, String newPassword) {
+        if (StringUtils.isBlank(phone)) {
+            throw new UserException("请填写手机号码");
+        }
+        if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
+            throw new UserException("参数异常");
+        }
+
+        ResetPasswordResult result = userService.resetLoginPassword(commRequestParams, phone, password, newPassword);
+        result.setMsg("修改成功");
+        return result;
     }
 }

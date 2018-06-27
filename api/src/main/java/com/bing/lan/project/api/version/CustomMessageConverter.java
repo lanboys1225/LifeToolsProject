@@ -1,6 +1,6 @@
 package com.bing.lan.project.api.version;
 
-import com.bing.lan.BaseDomain;
+import com.bing.lan.domain.BaseDomain;
 import com.bing.lan.core.api.ApiResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

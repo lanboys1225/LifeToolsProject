@@ -1,10 +1,11 @@
 package com.bing.lan.project.userApi.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.bing.lan.BaseDomain;
+import com.bing.lan.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,4 +34,10 @@ public class User extends BaseDomain implements Serializable {
 
     @JsonIgnore
     private String isDelete;
+
+    @JsonIgnore
+    private Date createTime;
+
+    @JsonIgnore
+    private Date updateTime;
 }
