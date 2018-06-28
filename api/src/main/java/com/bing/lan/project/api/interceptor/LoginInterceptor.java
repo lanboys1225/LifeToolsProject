@@ -41,7 +41,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         // 清除 userId
         UserHolder.removeUserId();
 
@@ -49,7 +48,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-
         HandlerMethod o = (HandlerMethod) handler;
         RequiredLogin classRequiredLogin = o.getBean().getClass().getAnnotation(RequiredLogin.class);
         RequiredLogin methodRequiredLogin = o.getMethodAnnotation(RequiredLogin.class);
@@ -69,6 +67,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     if (token.equals(redisToken)) {
                         // 最终验证通过(单点登录)
                         UserHolder.setUserId(userId);
+                        log.i("preHandle(): 验证登录请求通过");
                         return super.preHandle(request, response, handler);
                     } else {
                         // 异地登录
@@ -89,7 +88,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             log.i("preHandle():  " + HTTP_CODE_NOT_LOGIN_MSG);
             return false;
         }
-
+        log.i("preHandle(): 无需验证登录请求");
         return super.preHandle(request, response, handler);
     }
 

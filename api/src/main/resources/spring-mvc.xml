@@ -32,6 +32,10 @@
             <mvc:mapping path="/**/*"/>
             <bean class="com.bing.lan.project.api.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*"/>
+            <bean class="com.bing.lan.project.api.interceptor.CommRequestParamsInterceptor"/>
+        </mvc:interceptor>
 
     </mvc:interceptors>
 

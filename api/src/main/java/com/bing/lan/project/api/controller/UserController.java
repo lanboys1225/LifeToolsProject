@@ -1,8 +1,8 @@
 package com.bing.lan.project.api.controller;
 
 import com.bing.lan.core.api.LogUtil;
-import com.bing.lan.domain.CommRequestParams;
 import com.bing.lan.domain.QueryDomain;
+import com.bing.lan.holder.CommRequestParamsHolder;
 import com.bing.lan.holder.UserHolder;
 import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
@@ -32,16 +32,6 @@ public class UserController extends BaseController {
 
     @Autowired
     private UserService userService;
-    private CommRequestParams commRequestParams;
-
-    {
-        commRequestParams = CommRequestParams.builder()
-                .platform("android")
-                .ip("127.9.0.121")
-                .version("v1.1.2")
-                .channel("tengxun")
-                .build();
-    }
 
     @ResponseBody
     @RequestMapping("/login")
@@ -56,19 +46,8 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("/login")
     @ApiVersion(2)
-    @RequiredLogin
     public User login2(String phone, String password) {
         log.i("login2(): 版本2登录");
-        User user = login(phone, password);
-        user.setMsg("登录成功");
-        return user;
-    }
-
-    @ResponseBody
-    @RequestMapping("/login")
-    @ApiVersion(5)
-    public User login5(String phone, String password) {
-        log.i("login5(): 版本5登录");
         User user = login(phone, password);
         user.setMsg("登录成功");
         return user;
@@ -81,7 +60,7 @@ public class UserController extends BaseController {
         if (StringUtils.isBlank(password)) {
             throw new UserException("请填写登录密码");
         }
-        return userService.doLogin(commRequestParams, phone, password);
+        return userService.doLogin(CommRequestParamsHolder.getCommRequestParams(), phone, password);
     }
 
     @ResponseBody
@@ -91,7 +70,7 @@ public class UserController extends BaseController {
         if (StringUtils.isBlank(phone)) {
             throw new UserException("请填写手机号码");
         }
-        User user = userService.doRegister(commRequestParams, phone, password);
+        User user = userService.doRegister(CommRequestParamsHolder.getCommRequestParams(), phone, password);
         user.setMsg("注册成功");
         return user;
     }
@@ -107,7 +86,7 @@ public class UserController extends BaseController {
             throw new UserException("参数异常");
         }
 
-        ResetPasswordResult result = userService.resetLoginPassword(commRequestParams, phone, password, newPassword);
+        ResetPasswordResult result = userService.resetLoginPassword(CommRequestParamsHolder.getCommRequestParams(), phone, password, newPassword);
         result.setMsg("修改成功");
         return result;
     }
