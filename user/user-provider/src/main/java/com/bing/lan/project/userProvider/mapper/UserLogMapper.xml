@@ -73,4 +73,28 @@
         SELECT *
         FROM user_log
     </select>
+    <select id="countByUserId" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM user_log
+        WHERE user_id = #{userId }
+    </select>
+    <select id="countByPhone" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM user_log
+        WHERE phone = #{phone }
+    </select>
+    <select id="selectAllByUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM user_log
+        WHERE user_id = #{userId }
+        ORDER BY create_time DESC
+        LIMIT #{offset }, #{pageSize }
+    </select>
+    <select id="selectAllByPhone" resultMap="BaseResultMap">
+        SELECT *
+        FROM user_log
+        WHERE phone = #{phone }
+        ORDER BY create_time DESC
+        LIMIT #{offset }, #{pageSize }
+    </select>
 </mapper>

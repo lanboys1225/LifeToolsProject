@@ -2,18 +2,22 @@ package com.bing.lan.project.api.controller;
 
 import com.bing.lan.core.api.LogUtil;
 import com.bing.lan.domain.CommRequestParams;
+import com.bing.lan.domain.QueryDomain;
+import com.bing.lan.holder.UserHolder;
 import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
 import com.bing.lan.project.api.service.UserService;
 import com.bing.lan.project.api.version.ApiVersion;
 import com.bing.lan.project.userApi.domain.ResetPasswordResult;
 import com.bing.lan.project.userApi.domain.User;
+import com.bing.lan.project.userApi.domain.UserLog;
 import com.bing.lan.project.userApi.exception.UserException;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
@@ -106,5 +110,17 @@ public class UserController extends BaseController {
         ResetPasswordResult result = userService.resetLoginPassword(commRequestParams, phone, password, newPassword);
         result.setMsg("修改成功");
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/userLog")
+    @ApiVersion(1)
+    @RequiredLogin
+    public QueryDomain<UserLog> userLog1(
+            @RequestParam(required = false, defaultValue = "20") int pageSize,
+            @RequestParam(required = false, defaultValue = "1") int currentPage) {
+
+        return userService.userLog(UserHolder.getUserId(),
+                new QueryDomain<>(pageSize, currentPage));
     }
 }

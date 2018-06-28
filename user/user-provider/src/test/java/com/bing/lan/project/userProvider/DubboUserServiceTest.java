@@ -1,7 +1,9 @@
 package com.bing.lan.project.userProvider;
 
 import com.bing.lan.domain.CommRequestParams;
+import com.bing.lan.domain.QueryDomain;
 import com.bing.lan.project.userApi.constants.RedisConstant;
+import com.bing.lan.project.userApi.domain.UserLog;
 import com.bing.lan.project.userApi.service.DubboUserService;
 import com.bing.lan.redis.RedisClient;
 
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Created by 蓝兵 on 2018/6/13.
@@ -75,5 +79,24 @@ public class DubboUserServiceTest {
     public void testDubboUserServiceResetLoginPassword() {
         dubboUserService.resetLoginPassword(commRequestParams, "13556000000",
                 "12345", "123456");
+    }
+
+    /**
+     * 测试查询用户日志
+     */
+    @Test
+    public void testDubboUserServiceUserLog() {
+        QueryDomain queryDomain = new QueryDomain();
+        queryDomain.setCurrentPage(1);
+        queryDomain.setPageSize(5);
+
+        QueryDomain userLogs1 = dubboUserService.userLog("10", queryDomain);
+        List<UserLog> userLogs = userLogs1.getList();
+
+        System.out.println("testDubboUserServiceUserLog()--------------------------------");
+        for (UserLog userLog : userLogs) {
+            System.out.println("testDubboUserServiceUserLog(): " + userLog.getId());
+        }
+        System.out.println("testDubboUserServiceUserLog()--------------------------------");
     }
 }

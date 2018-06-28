@@ -2,6 +2,7 @@ package com.bing.lan.project.userProvider.service.impl;
 
 import com.bing.lan.core.api.LogUtil;
 import com.bing.lan.domain.CommRequestParams;
+import com.bing.lan.domain.QueryDomain;
 import com.bing.lan.project.userApi.constants.Constant;
 import com.bing.lan.project.userApi.constants.RedisConstant;
 import com.bing.lan.project.userApi.domain.ResetPasswordResult;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.jsonwebtoken.Claims;
@@ -55,6 +57,16 @@ public class DubboUserServiceImpl implements DubboUserService {
             throw new UserException("请填写手机号");
         }
         return userMapper.selectByPhone(phone);
+    }
+
+    /**
+     * 根据userId查询用户
+     */
+    private User selectByPrimaryKey(String id) {
+        if (StringUtils.isBlank(id)) {
+            throw new UserException("参数异常");
+        }
+        return userMapper.selectByPrimaryKey(Long.valueOf(id));
     }
 
     @Override
@@ -141,6 +153,17 @@ public class DubboUserServiceImpl implements DubboUserService {
     }
 
     @Override
+    public QueryDomain<UserLog> userLog(String userId, QueryDomain<UserLog> queryDomain) {
+        List<UserLog> userLogs = userLogMapper.selectAllByUserId(userId,
+                queryDomain.getOffset(), queryDomain.getPageSize());
+
+        queryDomain.setList(userLogs);
+        queryDomain.setTotalSize(userLogMapper.countByUserId(userId));
+
+        return queryDomain;
+    }
+
+    @Override
     public User doLogin(CommRequestParams commRequestParams, String phone, String password) {
 
         User user = selectByPhone(phone);
@@ -185,7 +208,7 @@ public class DubboUserServiceImpl implements DubboUserService {
         String errorNum = redisClient.getString(key);
         Integer num = 0;
 
-        if (!StringUtils.isBlank(user.getPassword())) {
+        if (!StringUtils.isBlank(errorNum)) {
             num = Integer.parseInt(errorNum);
             if (num >= Constant.ERROR_PWD_NUM) {
                 userLog.setLoginStatus("6");
