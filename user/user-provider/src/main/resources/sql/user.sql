@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-06-27 17:32:21
+Date: 2018-06-28 18:50:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,12 +26,12 @@ CREATE TABLE `user` (
   `user_name` varchar(30) DEFAULT NULL COMMENT '用户名',
   `nickname` varchar(30) DEFAULT NULL COMMENT '用户昵称',
   `is_delete` varchar(20) NOT NULL DEFAULT 'N' COMMENT 'Y 已删除 N 未删除',
-  `update_time` datetime DEFAULT NULL COMMENT '最近修改时间',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '13556000000', '123456', 'lanboys', 'lanboys', 'N', '2018-06-27 16:41:53', '2018-06-27 16:39:15');
+INSERT INTO `user` VALUES ('1', '13556000000', '123456', 'lanboys', 'lanboys', 'N', '2018-06-27 16:39:15', '2018-06-27 16:41:53');

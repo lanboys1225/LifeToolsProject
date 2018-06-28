@@ -1,6 +1,7 @@
 package com.bing.lan.project.userApi.domain;
 
 import com.bing.lan.domain.BaseDomain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
@@ -34,6 +35,9 @@ public class UserLog extends BaseDomain {
     private Date tokenExpireTime;
 
     private Date createTime;
+
+    @JsonIgnore
+    private Date updateTime;
 
     private String ip;
 

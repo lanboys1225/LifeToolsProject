@@ -74,12 +74,10 @@ public class DubboUserServiceImpl implements DubboUserService {
             String password, String nickName, String userName) {
 
         User user = selectByPhone(phone);
-        Date time = new Date();
 
         UserLog userLog = UserLog.builder().build();
         userLog.setLogType("register");
         userLog.setPhone(phone);
-        userLog.setCreateTime(time);
 
         userLog.setIp(commRequestParams.getIp());
         userLog.setChannel(commRequestParams.getChannel());
@@ -98,8 +96,6 @@ public class DubboUserServiceImpl implements DubboUserService {
                 .nickname(nickName)
                 .password(password)
                 .phone(phone)
-                .createTime(time)
-                .updateTime(time)
                 .build();
 
         userMapper.insert(user);
@@ -118,7 +114,6 @@ public class DubboUserServiceImpl implements DubboUserService {
         UserLog userLog = UserLog.builder().build();
         userLog.setLogType("resetPassword");
         userLog.setPhone(phone);
-        userLog.setCreateTime(new Date());
 
         userLog.setIp(commRequestParams.getIp());
         userLog.setChannel(commRequestParams.getChannel());
@@ -144,7 +139,6 @@ public class DubboUserServiceImpl implements DubboUserService {
             throw new UserException(userLog.getComment());
         }
         user.setPassword(newPassword);
-        user.setUpdateTime(new Date());
         userMapper.updateByPrimaryKey(user);
         userLogMapper.insert(userLog);
         userLogMapper.insert(userLog);
@@ -171,7 +165,6 @@ public class DubboUserServiceImpl implements DubboUserService {
 
         userLog.setLogType("login");
         userLog.setPhone(phone);
-        userLog.setCreateTime(new Date());
 
         userLog.setIp(commRequestParams.getIp());
         userLog.setChannel(commRequestParams.getChannel());

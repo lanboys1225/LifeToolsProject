@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2018-06-27 17:31:57
+Date: 2018-06-28 18:50:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,12 +28,13 @@ CREATE TABLE `user_log` (
   `login_status` varchar(20) DEFAULT NULL COMMENT '0 登录成功 1 退出登录 2 用户不存在 3 用户被删除 4 未设置登录密码 5 登录密码错误 6 密码错误次数超限5次',
   `token` varchar(255) DEFAULT NULL,
   `token_expire_time` datetime DEFAULT NULL COMMENT 'token过期时间',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
   `ip` varchar(30) DEFAULT NULL COMMENT 'ip地址',
   `version` varchar(30) DEFAULT NULL COMMENT 'app 版本',
   `device_id` varchar(255) DEFAULT NULL COMMENT '手机 设备id',
   `platform` varchar(30) DEFAULT NULL COMMENT '平台 ios android pc',
   `channel` varchar(30) DEFAULT NULL COMMENT 'app 渠道id 如 yingyongbao',
   `comment` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
