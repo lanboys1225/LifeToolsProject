@@ -21,4 +21,8 @@
 
     <dubbo:service interface="com.bing.lan.project.userApi.service.DubboUserService"
                    ref="dubboUserServiceImpl"/>
+
+    <dubbo:service interface="com.bing.lan.project.userApi.service.DubboGroupUserService"
+                   ref="dubboGroupUserServiceImpl"/>
+
 </beans>

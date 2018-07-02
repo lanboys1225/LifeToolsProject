@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bing.lan.project.userProvider.mapper.GroupsMapper">
+    <resultMap id="BaseResultMap" type="com.bing.lan.project.userApi.domain.Groups">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="group_name" property="groupName" jdbcType="VARCHAR"/>
+        <result column="group_number" property="groupNumber" jdbcType="VARCHAR"/>
+        <result column="group_owner_id" property="groupOwnerId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM groups
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.bing.lan.project.userApi.domain.Groups"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO groups (group_name, group_number, group_owner_id)
+        VALUES (#{groupName,jdbcType=VARCHAR}, #{groupNumber,jdbcType=VARCHAR},
+                #{groupOwnerId,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bing.lan.project.userApi.domain.Groups">
+        UPDATE groups
+        SET group_name     = #{groupName,jdbcType=VARCHAR},
+            group_number   = #{groupNumber,jdbcType=VARCHAR},
+            group_owner_id = #{groupOwnerId,jdbcType=BIGINT}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT *
+        FROM groups
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM groups
+    </select>
+</mapper>

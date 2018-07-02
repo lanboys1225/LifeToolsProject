@@ -128,11 +128,7 @@ public class DubboUserServiceImpl implements DubboUserService {
         }
 
         userLog.setUserId(user.getId());
-        if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
-            userLog.setComment("参数异常");
-            userLogMapper.insert(userLog);
-            throw new UserException(userLog.getComment());
-        }
+
         if (!password.equals(user.getPassword())) {
             userLog.setComment("密码不正确");
             userLogMapper.insert(userLog);
