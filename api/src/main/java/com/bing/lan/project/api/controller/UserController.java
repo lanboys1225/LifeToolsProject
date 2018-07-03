@@ -8,7 +8,7 @@ import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
 import com.bing.lan.project.api.service.UserService;
 import com.bing.lan.project.api.version.ApiVersion;
-import com.bing.lan.project.userApi.domain.ResetPasswordResult;
+import com.bing.lan.project.userApi.domain.ApiCommResult;
 import com.bing.lan.project.userApi.domain.User;
 import com.bing.lan.project.userApi.domain.UserLog;
 import com.bing.lan.project.userApi.exception.UserException;
@@ -66,11 +66,12 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("/register")
     @ApiVersion(1)
-    public User register1(String phone, String password) {
+    public User register(String phone, String password) {
         if (StringUtils.isBlank(phone)) {
             throw new UserException("请填写手机号码");
         }
-        User user = userService.doRegister(CommRequestParamsHolder.getCommRequestParams(), phone, password);
+        User user = userService.doRegister(CommRequestParamsHolder.getCommRequestParams(),
+                phone, password);
         user.setMsg("注册成功");
         return user;
     }
@@ -78,7 +79,7 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping("/resetLoginPassword")
     @ApiVersion(1)
-    public ResetPasswordResult resetLoginPassword1(String phone, String password, String newPassword) {
+    public ApiCommResult resetLoginPassword(String phone, String password, String newPassword) {
         if (StringUtils.isBlank(phone)) {
             throw new UserException("请填写手机号码");
         }
@@ -86,20 +87,20 @@ public class UserController extends BaseController {
             throw new UserException("参数异常");
         }
 
-        ResetPasswordResult result = userService.resetLoginPassword(CommRequestParamsHolder.getCommRequestParams(), phone, password, newPassword);
+        ApiCommResult result = userService.resetLoginPassword(CommRequestParamsHolder.getCommRequestParams(), phone, password, newPassword);
         result.setMsg("修改成功");
         return result;
     }
 
     @ResponseBody
-    @RequestMapping("/userLog")
+    @RequestMapping("/logList")
     @ApiVersion(1)
     @RequiredLogin
-    public QueryDomain<UserLog> userLog1(
+    public QueryDomain<UserLog> logList(
             @RequestParam(required = false, defaultValue = "20") int pageSize,
             @RequestParam(required = false, defaultValue = "1") int currentPage) {
 
-        return userService.userLog(UserHolder.getUserId(),
+        return userService.userLogList(UserHolder.getUserId(),
                 new QueryDomain<>(pageSize, currentPage));
     }
 }

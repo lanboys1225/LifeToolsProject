@@ -85,13 +85,13 @@ public class DubboUserServiceTest {
      * 测试查询用户日志
      */
     @Test
-    public void testDubboUserServiceUserLog() {
-        QueryDomain queryDomain = new QueryDomain();
+    public void testDubboUserServiceUserLogList() {
+        QueryDomain<UserLog> queryDomain = new QueryDomain<>();
         queryDomain.setCurrentPage(1);
         queryDomain.setPageSize(5);
 
-        QueryDomain userLogs1 = dubboUserService.userLog("10", queryDomain);
-        List<UserLog> userLogs = userLogs1.getList();
+        QueryDomain<UserLog> userLogQueryDomain = dubboUserService.userLogList(10, queryDomain);
+        List<UserLog> userLogs = userLogQueryDomain.getList();
 
         System.out.println("testDubboUserServiceUserLog()--------------------------------");
         for (UserLog userLog : userLogs) {

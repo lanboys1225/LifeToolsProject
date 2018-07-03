@@ -16,7 +16,7 @@
     </delete>
     <insert id="insert" parameterType="com.bing.lan.project.userApi.domain.GroupUser"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO group_user (group_id, user_id, group_role)
+        INSERT IGNORE group_user (group_id, user_id, group_role)
         VALUES
             (#{groupId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{groupRole,jdbcType=VARCHAR}
             )
@@ -36,5 +36,32 @@
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT *
         FROM group_user
+    </select>
+    <select id="selectAllByUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_user
+        WHERE user_id = #{userId }
+        ORDER BY create_time DESC
+        LIMIT #{offset }, #{pageSize }
+    </select>
+
+    <select id="selectAllByGroupId" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_user
+        WHERE group_id = #{groupId }
+        ORDER BY create_time DESC
+        LIMIT #{offset }, #{pageSize }
+    </select>
+
+    <select id="countAllByUserId" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM group_user
+        WHERE user_id = #{userId }
+    </select>
+
+    <select id="countAllByGroupId" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM group_user
+        WHERE group_id = #{groupId }
     </select>
 </mapper>

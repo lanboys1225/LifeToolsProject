@@ -3,15 +3,13 @@ package com.bing.lan.project.api.service.impl;
 import com.bing.lan.domain.CommRequestParams;
 import com.bing.lan.domain.QueryDomain;
 import com.bing.lan.project.api.service.UserService;
-import com.bing.lan.project.userApi.domain.ResetPasswordResult;
+import com.bing.lan.project.userApi.domain.ApiCommResult;
 import com.bing.lan.project.userApi.domain.User;
 import com.bing.lan.project.userApi.domain.UserLog;
 import com.bing.lan.project.userApi.service.DubboUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Created by 蓝兵 on 2018/6/13.
@@ -34,13 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResetPasswordResult resetLoginPassword(CommRequestParams commRequestParams, String phone,
+    public ApiCommResult resetLoginPassword(CommRequestParams commRequestParams, String phone,
             String password, String newPassword) {
         return dubboUserService.resetLoginPassword(commRequestParams, phone, password, newPassword);
     }
 
     @Override
-    public QueryDomain<UserLog> userLog(String userId, QueryDomain<UserLog> queryDomain) {
-        return dubboUserService.userLog(userId, queryDomain);
+    public QueryDomain<UserLog> userLogList(long userId, QueryDomain<UserLog> queryDomain) {
+        return dubboUserService.userLogList(userId, queryDomain);
     }
 }

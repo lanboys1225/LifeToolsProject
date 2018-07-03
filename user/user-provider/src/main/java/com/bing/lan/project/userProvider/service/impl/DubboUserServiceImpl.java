@@ -5,7 +5,7 @@ import com.bing.lan.domain.CommRequestParams;
 import com.bing.lan.domain.QueryDomain;
 import com.bing.lan.project.userApi.constants.Constant;
 import com.bing.lan.project.userApi.constants.RedisConstant;
-import com.bing.lan.project.userApi.domain.ResetPasswordResult;
+import com.bing.lan.project.userApi.domain.ApiCommResult;
 import com.bing.lan.project.userApi.domain.User;
 import com.bing.lan.project.userApi.domain.UserLog;
 import com.bing.lan.project.userApi.exception.UserException;
@@ -106,7 +106,7 @@ public class DubboUserServiceImpl implements DubboUserService {
     }
 
     @Override
-    public ResetPasswordResult resetLoginPassword(CommRequestParams commRequestParams, String phone,
+    public ApiCommResult resetLoginPassword(CommRequestParams commRequestParams, String phone,
             String password, String newPassword) {
 
         User user = selectByPhone(phone);
@@ -139,11 +139,11 @@ public class DubboUserServiceImpl implements DubboUserService {
         userLogMapper.insert(userLog);
         userLogMapper.insert(userLog);
 
-        return ResetPasswordResult.builder().isResetSuccess(true).build();
+        return ApiCommResult.builder().isSuccess(true).build();
     }
 
     @Override
-    public QueryDomain<UserLog> userLog(String userId, QueryDomain<UserLog> queryDomain) {
+    public QueryDomain<UserLog> userLogList(long userId, QueryDomain<UserLog> queryDomain) {
         List<UserLog> userLogs = userLogMapper.selectAllByUserId(userId,
                 queryDomain.getOffset(), queryDomain.getPageSize());
 
@@ -238,6 +238,8 @@ public class DubboUserServiceImpl implements DubboUserService {
 
         userLog.setLoginStatus("0");
         userLogMapper.insert(userLog);
+
+        user.setToken(token);
 
         return user;
     }

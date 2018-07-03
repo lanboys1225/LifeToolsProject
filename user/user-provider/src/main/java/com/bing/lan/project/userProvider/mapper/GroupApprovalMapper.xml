@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bing.lan.project.userProvider.mapper.GroupApprovalMapper">
+    <resultMap id="BaseResultMap" type="com.bing.lan.project.userApi.domain.GroupApproval">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="group_id" property="groupId" jdbcType="BIGINT"/>
+        <result column="group_join_user_id" property="groupJoinUserId" jdbcType="BIGINT"/>
+        <result column="approval_user_id" property="approvalUserId" jdbcType="BIGINT"/>
+        <result column="approval_time" property="approvalTime" jdbcType="TIMESTAMP"/>
+        <result column="approval_status" property="approvalStatus" jdbcType="VARCHAR"/>
+        <result column="approval_fail_cause" property="approvalFailCause" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM group_approval
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.bing.lan.project.userApi.domain.GroupApproval"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT IGNORE group_approval (group_id, group_join_user_id, approval_user_id,
+                                      approval_time, approval_status, approval_fail_cause,
+                                      create_time, update_time)
+        VALUES (#{groupId,jdbcType=BIGINT}, #{groupJoinUserId,jdbcType=BIGINT},
+                #{approvalUserId,jdbcType=BIGINT},
+                #{approvalTime,jdbcType=TIMESTAMP}, #{approvalStatus,jdbcType=VARCHAR},
+                #{approvalFailCause,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bing.lan.project.userApi.domain.GroupApproval">
+        UPDATE group_approval
+        SET group_id            = #{groupId,jdbcType=BIGINT},
+            group_join_user_id  = #{groupJoinUserId,jdbcType=BIGINT},
+            approval_user_id    = #{approvalUserId,jdbcType=BIGINT},
+            approval_time       = #{approvalTime,jdbcType=TIMESTAMP},
+            approval_status     = #{approvalStatus,jdbcType=VARCHAR},
+            approval_fail_cause = #{approvalFailCause,jdbcType=VARCHAR},
+            create_time         = #{createTime,jdbcType=TIMESTAMP},
+            update_time         = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT *
+        FROM group_approval
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_approval
+    </select>
+
+    <select id="selectAllByGroupId" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_approval
+        WHERE group_id = #{groupId}
+    </select>
+
+    <select id="selectByGroupIdAndGroupJoinUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_approval
+        WHERE group_id = #{groupId} AND group_join_user_id = #{groupJoinUserId}
+    </select>
+
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM group_approval
+    </select>
+</mapper>

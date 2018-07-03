@@ -1,6 +1,5 @@
 package com.bing.lan.project.userApi.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.bing.lan.domain.BaseDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -17,28 +16,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseDomain {
+public class GroupApproval extends BaseDomain {
 
     private Long id;
 
-    private String phone;
+    private Long groupId;
 
-    @JsonIgnore
-    @JSONField(serialize = false)
-    private String password;
+    private Long groupJoinUserId;
 
-    private String userName;
+    private Long approvalUserId;
 
-    private String nickname;
+    private Date approvalTime;
 
-    @JsonIgnore
-    private String isDelete;
+    private String approvalStatus;
 
-    @JsonIgnore
-    private Date createTime;
+    private String approvalFailCause;
 
     @JsonIgnore
     private Date updateTime;
 
-    private String token;
+    @JsonIgnore
+    private Date createTime;
 }

@@ -66,7 +66,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                     String redisToken = redisClient.getString(RedisConstant.REDIS_TOKEN_KEY + userId);
                     if (token.equals(redisToken)) {
                         // 最终验证通过(单点登录)
-                        UserHolder.setUserId(userId);
+                        UserHolder.setUserId(Long.valueOf(userId));
                         log.i("preHandle(): 验证登录请求通过");
                         return super.preHandle(request, response, handler);
                     } else {

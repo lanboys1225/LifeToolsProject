@@ -14,18 +14,18 @@ public interface UserLogMapper {
 
     UserLog selectByPrimaryKey(Long id);
 
-    int countByUserId(@Param("userId") String userId);
+    int countByUserId(@Param("userId") long userId);
 
-    int countByPhone(@Param("phone") String phone);
+    int countByPhone(@Param("phone") long phone);
 
     List<UserLog> selectAllByUserId(
-            @Param("userId") String userId,
+            @Param("userId") long userId,
             @Param("offset") int offset,
             @Param("pageSize") int pageSize
     );
 
     List<UserLog> selectAllByPhone(
-            @Param("phone") String phone,
+            @Param("phone") long phone,
             @Param("offset") int offset,
             @Param("pageSize") int pageSize);
 

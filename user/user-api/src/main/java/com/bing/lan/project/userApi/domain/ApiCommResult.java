@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResetPasswordResult extends BaseDomain {
-    private boolean isResetSuccess;
+public class ApiCommResult extends BaseDomain {
+    private boolean isSuccess;
 }

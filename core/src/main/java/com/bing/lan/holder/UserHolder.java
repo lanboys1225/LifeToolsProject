@@ -6,13 +6,13 @@ package com.bing.lan.holder;
 
 public class UserHolder {
 
-    private static ThreadLocal<String> userIdHolder = new ThreadLocal<String>();
+    private static ThreadLocal<Long> userIdHolder = new ThreadLocal<Long>();
 
-    public static String getUserId() {
+    public static Long getUserId() {
         return userIdHolder.get();
     }
 
-    public static void setUserId(String userId) {
+    public static void setUserId(Long userId) {
         userIdHolder.set(userId);
     }
 
