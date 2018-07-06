@@ -3,11 +3,13 @@ package com.bing.lan.project.userProvider.service.impl;
 import com.bing.lan.domain.QueryDomain;
 import com.bing.lan.project.userApi.domain.ApiCommResult;
 import com.bing.lan.project.userApi.domain.GroupApproval;
+import com.bing.lan.project.userApi.domain.GroupTradeAccount;
 import com.bing.lan.project.userApi.domain.GroupUser;
 import com.bing.lan.project.userApi.domain.Groups;
 import com.bing.lan.project.userApi.exception.UserException;
 import com.bing.lan.project.userApi.service.DubboGroupUserService;
 import com.bing.lan.project.userProvider.mapper.GroupApprovalMapper;
+import com.bing.lan.project.userProvider.mapper.GroupTradeAccountMapper;
 import com.bing.lan.project.userProvider.mapper.GroupUserMapper;
 import com.bing.lan.project.userProvider.mapper.GroupsMapper;
 
@@ -24,6 +26,9 @@ import java.util.List;
  */
 @Service
 public class DubboGroupUserServiceImpl implements DubboGroupUserService {
+
+    @Autowired
+    private GroupTradeAccountMapper groupTradeAccountMapper;
 
     @Autowired
     private GroupsMapper groupsMapper;
@@ -47,13 +52,13 @@ public class DubboGroupUserServiceImpl implements DubboGroupUserService {
                 .build();
         groupsMapper.insert(group);
         // 加入自己创建的群
-        //GroupUser groupUser = GroupUser.builder()
-        //        .groupId(group.getId())
-        //        .userId(Long.valueOf(ownerId))
-        //        .groupRole("creator")
-        //        .build();
-        //groupUserMapper.insert(groupUser);
         joinGroup(group.getId(), ownerId, "creator");
+
+        GroupTradeAccount groupTradeAccount = GroupTradeAccount.builder()
+                .availableAmount(0L)
+                .groupId(group.getId())
+                .build();
+        groupTradeAccountMapper.insert(groupTradeAccount);
         return group;
     }
 
@@ -157,7 +162,7 @@ public class DubboGroupUserServiceImpl implements DubboGroupUserService {
         List<GroupUser> groupUsers = groupUserMapper.selectAllByUserId(userId,
                 queryDomain.getOffset(), queryDomain.getPageSize());
         queryDomain.setList(groupUsers);
-        queryDomain.setTotalSize(groupUserMapper.countAllByUserId(userId));
+        queryDomain.setTotalSize(groupUserMapper.countByUserId(userId));
         return queryDomain;
     }
 
@@ -169,7 +174,7 @@ public class DubboGroupUserServiceImpl implements DubboGroupUserService {
         List<GroupUser> groupUsers = groupUserMapper.selectAllByGroupId(groupId,
                 queryDomain.getOffset(), queryDomain.getPageSize());
         queryDomain.setList(groupUsers);
-        queryDomain.setTotalSize(groupUserMapper.countAllByGroupId(groupId));
+        queryDomain.setTotalSize(groupUserMapper.countByGroupId(groupId));
         return queryDomain;
     }
 }

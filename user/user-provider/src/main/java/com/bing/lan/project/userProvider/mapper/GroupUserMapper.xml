@@ -53,13 +53,19 @@
         LIMIT #{offset }, #{pageSize }
     </select>
 
-    <select id="countAllByUserId" resultType="java.lang.Integer">
+    <select id="selectByGroupIdAndUserId" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_user
+        WHERE group_id = #{groupId } AND user_id = #{userId }
+    </select>
+
+    <select id="countByUserId" resultType="java.lang.Integer">
         SELECT count(*)
         FROM group_user
         WHERE user_id = #{userId }
     </select>
 
-    <select id="countAllByGroupId" resultType="java.lang.Integer">
+    <select id="countByGroupId" resultType="java.lang.Integer">
         SELECT count(*)
         FROM group_user
         WHERE group_id = #{groupId }

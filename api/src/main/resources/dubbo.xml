@@ -20,4 +20,7 @@
     <!-- 群服务 -->
     <dubbo:reference interface="com.bing.lan.project.userApi.service.DubboGroupUserService"
                      id="dubboGroupUserService" check="true"/>
+    <!-- 群交易服务 -->
+    <dubbo:reference interface="com.bing.lan.project.userApi.service.DubboGroupTradeService"
+                     id="dubboGroupTradeService" check="true"/>
 </beans>

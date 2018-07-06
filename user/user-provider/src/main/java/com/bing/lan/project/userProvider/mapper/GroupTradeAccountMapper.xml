@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bing.lan.project.userProvider.mapper.GroupTradeAccountMapper">
+    <resultMap id="BaseResultMap" type="com.bing.lan.project.userApi.domain.GroupTradeAccount">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="group_id" property="groupId" jdbcType="BIGINT"/>
+        <result column="available_amount" property="availableAmount" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM group_trade_account
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.bing.lan.project.userApi.domain.GroupTradeAccount"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO group_trade_account (group_id, available_amount, update_time,
+                                         create_time)
+        VALUES (#{groupId,jdbcType=BIGINT}, #{availableAmount,jdbcType=BIGINT},
+                #{updateTime,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <update id="updateByPrimaryKey"
+            parameterType="com.bing.lan.project.userApi.domain.GroupTradeAccount">
+        UPDATE group_trade_account
+        SET group_id         = #{groupId,jdbcType=BIGINT},
+            available_amount = #{availableAmount,jdbcType=BIGINT},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP},
+            create_time      = #{createTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateAvailableAmountByGroupId"
+            parameterType="java.lang.Long">
+        UPDATE group_trade_account
+        SET available_amount = available_amount + #{deltaAmount,jdbcType=BIGINT}
+        WHERE group_id = #{groupId,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT *
+        FROM group_trade_account
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_trade_account
+    </select>
+</mapper>

@@ -14,6 +14,10 @@ public interface GroupUserMapper {
 
     GroupUser selectByPrimaryKey(Long id);
 
+    GroupUser selectByGroupIdAndUserId(
+            @Param("groupId") long groupId,
+            @Param("userId") long userId);
+
     List<GroupUser> selectAll();
 
     List<GroupUser> selectAllByUserId(
@@ -28,9 +32,9 @@ public interface GroupUserMapper {
             @Param("pageSize") int pageSize
     );
 
-    int countAllByUserId(@Param("userId") long userId);
+    int countByUserId(@Param("userId") long userId);
 
-    int countAllByGroupId(@Param("groupId") long groupId);
+    int countByGroupId(@Param("groupId") long groupId);
 
     int updateByPrimaryKey(GroupUser record);
 }

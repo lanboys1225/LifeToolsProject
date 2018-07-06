@@ -28,8 +28,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/{version}/user/group")
 public class GroupUserController extends BaseController {
 
-    //private final LogUtil log = LogUtil.getLogUtil(getClass(), LogUtil.LOG_VERBOSE);
-
     @Autowired
     private DubboGroupUserService dubboGroupUserService;
 

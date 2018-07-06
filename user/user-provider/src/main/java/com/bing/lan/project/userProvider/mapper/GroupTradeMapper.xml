@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bing.lan.project.userProvider.mapper.GroupTradeMapper">
+    <resultMap id="BaseResultMap" type="com.bing.lan.project.userApi.domain.GroupTrade">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="group_id" property="groupId" jdbcType="BIGINT"/>
+        <result column="trade_user_id" property="tradeUserId" jdbcType="BIGINT"/>
+        <result column="trade_amount" property="tradeAmount" jdbcType="BIGINT"/>
+        <result column="trade_type" property="tradeType" jdbcType="VARCHAR"/>
+        <result column="audit_user_id" property="auditUserId" jdbcType="BIGINT"/>
+        <result column="audit_status" property="auditStatus" jdbcType="VARCHAR"/>
+        <result column="audit_fail_reason" property="auditFailReason" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM group_trade
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.bing.lan.project.userApi.domain.GroupTrade"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO group_trade (group_id, trade_user_id, trade_amount,
+                                 trade_type, audit_user_id, audit_status,
+                                 audit_fail_reason, update_time, create_time
+        )
+        VALUES (#{groupId,jdbcType=BIGINT}, #{tradeUserId,jdbcType=BIGINT},
+                #{tradeAmount,jdbcType=BIGINT},
+                #{tradeType,jdbcType=VARCHAR}, #{auditUserId,jdbcType=BIGINT},
+                #{auditStatus,jdbcType=VARCHAR},
+                #{auditFailReason,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+                #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.bing.lan.project.userApi.domain.GroupTrade">
+        UPDATE group_trade
+        SET group_id          = #{groupId,jdbcType=BIGINT},
+            trade_user_id     = #{tradeUserId,jdbcType=BIGINT},
+            trade_amount      = #{tradeAmount,jdbcType=BIGINT},
+            trade_type        = #{tradeType,jdbcType=VARCHAR},
+            audit_user_id     = #{auditUserId,jdbcType=BIGINT},
+            audit_status      = #{auditStatus,jdbcType=VARCHAR},
+            audit_fail_reason = #{auditFailReason,jdbcType=VARCHAR},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP},
+            create_time       = #{createTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT *
+        FROM group_trade
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_trade
+    </select>
+
+    <select id="selectAllByGroupId" resultMap="BaseResultMap">
+        SELECT *
+        FROM group_trade
+        WHERE group_id = #{groupId }
+        ORDER BY create_time DESC
+        LIMIT #{offset }, #{pageSize }
+    </select>
+    <select id="countByGroupId" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM group_trade
+        WHERE group_id = #{groupId }
+    </select>
+
+    <select id="countByTradeUserId" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM group_trade
+        WHERE trade_user_id = #{tradeUserId }
+    </select>
+
+</mapper>
