@@ -9,7 +9,7 @@
 
     <import resource="redis.xml"/>
 
-    <!--<context:property-placeholder location="classpath:config/${env}/zookeeper.properties"/>-->
+    <!--<context:property-placeholder location="classpath:config/${deploy.env}/zookeeper.properties"/>-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <!-- 配置单个配置文件 -->
         <!--<property name="location" value="classpath:db.properties"/>-->
@@ -17,9 +17,9 @@
         <!-- 配置多个配置文件 -->
         <property name="locations">
             <list>
-                <value>classpath:config/${env}/zookeeper.properties</value>
-                <value>classpath:config/${env}/redis.properties</value>
-                <value>classpath:config/${env}/db.properties</value>
+                <value>classpath:config/${deploy.env}/zookeeper.properties</value>
+                <value>classpath:config/${deploy.env}/redis.properties</value>
+                <value>classpath:config/${deploy.env}/db.properties</value>
             </list>
         </property>
     </bean>

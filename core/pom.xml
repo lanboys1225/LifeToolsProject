@@ -208,15 +208,43 @@
     </dependencies>
 
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <!-- 指定使用的 filter, 构建的时候进行替换-->
+      <!--
+
+        http://www.cnblogs.com/1si2/p/maven_filter.html
+        https://www.cnblogs.com/yucy/p/7082042.html
+
+           1.    <build><filters> 中的配置
+           2.    pom.xml 中的 <properties>
+           3.    mvn -Dproperty=value 中定义的 property
+
+            相同 key 的 property，以最后一个文件中的配置为最终配置。
+       -->
+
+        <!-- 如果 <filtering>true</filtering> 指定使用filter, 则打包构建的时候就会
+             将 resources 文件中出现的 ${xx} 占位符, 使用 filter 文件中的值进行替换(只针对当前module,
+             所以多module的时候,不是适合, 还是需要用PropertyPlaceholderConfigurer配置),
+             如果 filter 多文件中出现同样的key值, 则以后者为准
+         -->
+
+        <!-- 注意!!!!!! filter 文件如果不放在 resources, 是不会被打包的,
+             都替换掉了还打包进去无实际意义，所以最好还是不要放在resources 下   -->
+
+        <!-- 可不配置，因为父类pom.xml已经配置 -->
+        <!--<resources>-->
+            <!--<resource>-->
+                <!--<directory>src/main/resources</directory>-->
+                <!-- 是否使用过滤器 -->
+                <!--<filtering>true</filtering>-->
+            <!--</resource>-->
+        <!--</resources>-->
+
         <filters>
-            <filter>src/main/resources/filters/${env}.properties</filter>
+            <filter>src/main/filters/${deploy.env}.properties</filter>
+            <!--<filter>src/main/filters/test/${deploy.env}.properties</filter>-->
+
+            <!--<filter>src/main/filters/test/config/${deploy.env}/db.properties</filter>-->
+            <!--<filter>src/main/filters/test/config/${deploy.env}/redis.properties</filter>-->
+            <!--<filter>src/main/filters/test/config/${deploy.env}/zookeeper.properties</filter>-->
         </filters>
 
         <plugins>

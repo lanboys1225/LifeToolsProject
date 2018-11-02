@@ -312,10 +312,12 @@
     </dependencyManagement>
 
     <profiles>
+
+        <!-- 对全局 ${deploy.env} 进行替换 -->
         <profile>
             <id>local</id>
             <properties>
-                <env>local</env>
+                <deploy.env>local</deploy.env>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -324,13 +326,13 @@
         <profile>
             <id>dev</id>
             <properties>
-                <env>dev</env>
+                <deploy.env>dev</deploy.env>
             </properties>
         </profile>
         <profile>
             <id>product</id>
             <properties>
-                <env>product</env>
+                <deploy.env>product</deploy.env>
             </properties>
         </profile>
     </profiles>
