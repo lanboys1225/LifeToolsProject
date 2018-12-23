@@ -1,6 +1,5 @@
 package com.bing.lan.project.api.controller;
 
-import com.bing.lan.core.api.LogUtil;
 import com.bing.lan.project.api.BaseController;
 import com.bing.lan.project.api.UserService;
 import com.bing.lan.project.api.interceptor.annotation.RequiredLogin;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/{version}/user")
 public class UserController extends BaseController {
-
-    private final LogUtil log = LogUtil.getLogUtil(getClass(), LogUtil.LOG_VERBOSE);
 
     @Autowired
     private UserService userService;

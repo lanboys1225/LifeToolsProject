@@ -36,8 +36,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         RequiredLogin classRequiredLogin = o.getBean().getClass().getAnnotation(RequiredLogin.class);
         RequiredLogin methodRequiredLogin = o.getMethodAnnotation(RequiredLogin.class);
         boolean isRequiredLogin = classRequiredLogin != null || methodRequiredLogin != null;
-        long l = Long.valueOf(request.getParameter("password")) % 2;
-        if (l == 0 && isRequiredLogin) {
+        //long l = Long.valueOf(request.getParameter("password")) % 2;
+        if (/*l == 0 && */isRequiredLogin) {
             writeFail(response, HTTP_CODE_NOT_LOGIN, HTTP_CODE_NOT_LOGIN_MSG);
             //todo 根据 RequiredLogin value 判断返回json 还是 html；
             log.i("preHandle(): 未登录");
