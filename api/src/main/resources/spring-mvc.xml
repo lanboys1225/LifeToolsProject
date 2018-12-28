@@ -20,11 +20,11 @@
     <mvc:default-servlet-handler/>
 
     <!-- 配置文件上传解析器  名字需要固定 因为DispatcherServlet 写死了 MULTIPART_RESOLVER_BEAN_NAME-->
-    <!--<bean id="multipartResolver"-->
-          <!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-        <!--&lt;!&ndash; 设置文件上传最大尺寸 &ndash;&gt;-->
-        <!--<property name="maxUploadSize" value="11048576"/>-->
-    <!--</bean>-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设置文件上传最大尺寸 -->
+        <property name="maxUploadSize" value="11048576"/>
+    </bean>
 
     <!-- 配置拦截器 -->
     <mvc:interceptors>

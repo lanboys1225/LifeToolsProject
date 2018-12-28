@@ -70,6 +70,8 @@ public class SimpleMailSender {
         authenticator = new MailAuthenticator(username, password);
         // 创建session
         session = Session.getInstance(props, authenticator);
+        // 设置为debug模式, 可以查看详细的发送 log
+        session.setDebug(true);
     }
 
     /**

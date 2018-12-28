@@ -12,21 +12,28 @@
 </head>
 <body>
 
-
-<label>
-    <form method="post" action="/api/v1/mail/send">
-        收件人userIds <input type="text" name="userId" value="1">
+<fieldset>
+    <legend>批量发送邮件</legend>
+    <form method="post" action="/api/v1/mail/send" enctype="multipart/form-data">
+        收件人userIdsExcel文件 <input type="file" name="userIdsExcelFile">
         <br>
-        邮件标题 <input type="text" name="title" value="标题">
+        邮件标题 <input type="text" name="title" value="titleName">
         <br>
         邮件内容
-        <input type="text" name="content" value="内容">
+        <input type="text" name="content" value="contentsssss">
         <br>
-        <input type="file">
-
+        收件邮箱 <input type="text" name="mail" value="lanbing@baogongyoucai.com">
+        <br>
         <input type="submit" value="发送"/>
     </form>
-</label>
+</fieldset>
+
+<fieldset>
+    <legend>模板</legend>
+    <form method="post" action="/api/v1/mail/downloadTemp">
+        <input type="submit" value="下载模板"/>
+    </form>
+</fieldset>
 
 
 </body>

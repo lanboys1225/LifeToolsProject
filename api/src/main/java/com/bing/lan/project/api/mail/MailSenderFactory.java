@@ -20,10 +20,10 @@ public class MailSenderFactory {
      */
     public static SimpleMailSender getSender(MailSenderType type) {
         if (type == MailSenderType.SERVICE) {
-            if (serviceSms == null) {
-                serviceSms = new SimpleMailSender("invisible@126.com",
-                        "hidden");
-            }
+            //if (serviceSms == null) {
+                serviceSms = new SimpleMailSender("111112013@163.com",
+                        "11111111111111");
+            //}
             return serviceSms;
         }
         return null;
