@@ -19,7 +19,16 @@ import static com.bing.lan.core.api.ApiResult.HTTP_CODE_FAIL_MSG;
 import static com.bing.lan.core.api.ApiResult.HTTP_CODE_SERVICE_EXCEPTION;
 
 /**
- * SpringMvc自定义的异常处理器
+ * SpringMvc自定义的异常处理器, 或按下方切片方式处理
+ * <p>
+ * 异常处理: errorHandler() 方法会在 ExceptionHandlerExceptionResolver.getExceptionHandlerMethod() 中被调用
+ *
+ * @ControllerAdvice public class ExceptionAdvice {
+ * @ExceptionHandler(value = Exception.class)
+ * public ApiResult errorHandler(Exception ex) {
+ * return ApiResult.error(ex.getMessage());
+ * }
+ * }
  */
 public class CustomExceptionHandler implements HandlerExceptionResolver {
 
